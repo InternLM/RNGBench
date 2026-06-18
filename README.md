@@ -193,17 +193,29 @@ python run.py --model gpt-5.4 --maze-size 13 --seed 0 --minimap
 
 ## Main Results
 
-No frontier system is close to saturation. Best per column in **bold**.
+No frontier system is close to saturation.
 
-**Single-player** — Matching Pairs (10×10, image, noise theme) and 3D Maze (13×13, no minimap, mean optimal path 60 steps). `Score%` = fraction of matched pairs; `GS%` = aggregate maze score (success rate, efficiency, exploration).
+**Single-player.** Two separate tables, one per game. Best per column in **bold**.
 
-| Model | PF%↓ | IA%↓ | Resp./Score↓ | Score%↑ | SR%↑ | Explore%↑ | Walls↓ | Eff.%↑ | GS%↑ |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| GPT-5.4        | **0.0** | 4.3 | **8.01** | **62.3** | 20.0 | 32.3 | 3.2 | **75.7** | 30.5 |
-| Gemini-3.1-Pro | 0.4 | **2.5** | 10.00 | 50.0 | **50.0** | **36.4** | **0.1** | 62.5 | **49.7** |
-| Seed-2.0-Lite  | 1.2 | 4.3 | 11.57 | 43.2 | 20.0 | 19.4 | 16.6 | 38.9 | 21.7 |
-| Kimi-K2.5      | 1.8 | 2.8 | 13.16 | 38.0 | 10.0 | 17.9 | 7.1 | 61.1 | 16.1 |
-| Qwen3.5-397B   | **0.0** | 3.0 | 19.74 | 25.3 | 0.0 | 21.0 | 9.9 | 0.0 | 10.5 |
+*Matching Pairs* (10×10, image, noise theme) — `Score%` = fraction of matched pairs; `Resp./Score` = responses per matched pair; `PF`/`IA` = parse-failure / invalid-action rates.
+
+| Model | PF%↓ | IA%↓ | Resp./Score↓ | Score%↑ |
+|---|---:|---:|---:|---:|
+| GPT-5.4 | **0.0** | 4.3 | **8.01** | **62.3** |
+| Gemini-3.1-Pro | 0.4 | **2.5** | 10.00 | 50.0 |
+| Seed-2.0-Lite | 1.2 | 4.3 | 11.57 | 43.2 |
+| Kimi-K2.5 | 1.8 | 2.8 | 13.16 | 38.0 |
+| Qwen3.5-397B | **0.0** | 3.0 | 19.74 | 25.3 |
+
+*3D Maze* (13×13, no minimap, mean optimal path 60 steps) — `GS%` = aggregate score (success rate, efficiency, exploration); `Eff.` is over successful episodes only.
+
+| Model | SR%↑ | Explore%↑ | Walls↓ | Eff.%↑ | GS%↑ |
+|---|---:|---:|---:|---:|---:|
+| GPT-5.4 | 20.0 | 32.3 | 3.2 | **75.7** | 30.5 |
+| Gemini-3.1-Pro | **50.0** | **36.4** | **0.1** | 62.5 | **49.7** |
+| Seed-2.0-Lite | 20.0 | 19.4 | 16.6 | 38.9 | 21.7 |
+| Kimi-K2.5 | 10.0 | 17.9 | 7.1 | 61.1 | 16.1 |
+| Qwen3.5-397B | 0.0 | 21.0 | 9.9 | 0.0 | 10.5 |
 
 **Duel** — Matching Pairs, image (poker), each model plays 16 games vs. the other four (both player orders, two seeds). The ranking **diverges** from single-player: Gemini-3.1-Pro wins *every* matchup, exploiting cards revealed by the opponent.
 
