@@ -1,0 +1,8 @@
+openai
+python-dotenv
+httpx
+pillow
+matplotlib
+seaborn
+pandas
+numpy

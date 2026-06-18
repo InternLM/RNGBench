@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>RNG-Bench · Reconstructive Non-Markov Games</title>
+  <meta name="description" content="A benchmark that isolates remember-to-act in multimodal language models through two closed-loop Non-Markov games — Matching Pairs and 3D Maze.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="RNG-Bench: Reconstructive Non-Markov Games">
+  <meta property="og:description" content="Evaluating multimodal language models on hidden-state tracking under closed-loop, non-Markov interaction.">
+  <meta property="og:image" content="static/images/two_games.png">
+  <meta property="og:type" content="website">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,500&family=JetBrains+Mono:wght@400;500&display=swap">
+
+  <link rel="stylesheet" href="static/css/main.css">
+</head>
+
+<body>
+
+<!-- ════════════ NAV ════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top">RNG-Bench</a>
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#results">Results</a>
+      <a href="#games">Games</a>
+      <a href="#memory-gap">Memory Gap</a>
+      <a href="#training">Training</a>
+      <a href="#BibTeX">BibTeX</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════ HERO ════════════ -->
+<section class="page-hero" id="top">
+  <div class="hero-inner">
+    <span class="venue-pill">RNG-Bench · Reconstructive Non-Markov Games</span>
+
+    <h1 class="publication-title">
+      Beyond the Current Observation:<br>
+      Evaluating Multimodal LLMs in <em>Non-Markov</em> Games
+    </h1>
+
+    <span class="tagline">Remember · Reconstruct · Act</span>
+
+    <p class="publication-authors">
+      <a href="https://github.com/SYuan03">Shengyuan Ding</a><sup>1,2,3,*</sup>,
+      <a href="https://scholar.google.com/citations?user=zxtbqQwAAAAJ">Xilin Wei</a><sup>1,*</sup>,
+      <a href="https://github.com/FangXinyu-0913">Xinyu Fang</a><sup>4,*</sup>,
+      <a href="https://github.com/kennymckormick">Haodong Duan</a><sup>5,†</sup>,
+      <br>
+      <a href="https://scholar.google.com/citations?user=GMzzRRUAAAAJ">Dahua Lin</a><sup>3,5</sup>,
+      <a href="https://github.com/myownskyW7">Jiaqi Wang</a><sup>2,†</sup>,
+      <a href="https://github.com/yuhangzang">Yuhang Zang</a><sup>3,†</sup>
+    </p>
+    <p class="affil-line">
+      <sup>1</sup>Fudan University &nbsp; <sup>2</sup>Shanghai Innovation Institute &nbsp;
+      <sup>3</sup>Shanghai AI Laboratory
+      <br><sup>4</sup>Zhejiang University &nbsp; <sup>5</sup>The Chinese University of Hong Kong
+      <br><span class="affil-note"><sup>*</sup>Equal contribution &nbsp; <sup>†</sup>Corresponding authors</span>
+    </p>
+
+    <div class="publication-links">
+      <a href="#" class="button is-disabled">
+        <span class="icon"><i class="ai ai-arxiv"></i></span><span>arXiv&nbsp;·&nbsp;soon</span>
+      </a>
+      <a href="https://github.com/InternLM/RNGBench" class="button">
+        <span class="icon"><i class="fab fa-github"></i></span><span>Code</span>
+      </a>
+      <a href="#" class="button is-disabled">
+        <span class="icon">🤗</span><span>Dataset&nbsp;·&nbsp;soon</span>
+      </a>
+      <a href="#BibTeX" class="button is-primary-cta">
+        <span class="icon"><i class="fas fa-quote-left"></i></span><span>BibTeX</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ STATS ════════════ -->
+<div class="stats-bar">
+  <div class="stats-grid">
+    <div class="stat-cell"><span class="stat-num">4</span><span class="stat-label">Controllable axes</span></div>
+    <div class="stat-cell"><span class="stat-num">~128K</span><span class="stat-label">Max context tokens</span></div>
+    <div class="stat-cell"><span class="stat-num">~350</span><span class="stat-label">Images / episode</span></div>
+    <div class="stat-cell"><span class="stat-num">5</span><span class="stat-label">Frontier MLLMs</span></div>
+  </div>
+</div>
+
+<!-- ════════════ TEASER ════════════ -->
+<section class="hero teaser">
+  <div class="teaser-container">
+    <div class="teaser-frame">
+      <img src="static/images/teaser.png" alt="RNG-Bench: Markov vs. Non-Markov, and the two-game test suite">
+    </div>
+    <p class="teaser-caption">
+      <strong>(a)</strong> In Markov games (Go, chess) the visible state determines the move; in
+      <strong>Non-Markov</strong> games two identical-looking states need different actions once their
+      histories differ. <strong>(b)</strong> RNG-Bench instantiates this as <strong>Matching Pairs</strong>
+      and <strong>3D Maze</strong>, controllable along <em>scale</em>, <em>modality</em>, <em>pattern</em>,
+      and <em>external memory</em>.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════ ABSTRACT ════════════ -->
+<section class="section" id="abstract">
+  <div class="container is-max-desktop">
+    <span class="section-kicker">Abstract</span>
+    <h2 class="section-title">Hidden state, closed loop, controllable scale</h2>
+    <div class="prose">
+      <p>
+        Deploying multimodal foundation models as closed-loop policies increasingly requires
+        conditioning actions on observations that are no longer visible. Existing benchmarks either
+        expose the full state, conflate hidden-state reconstruction with other agent skills, or test
+        recall only after an episode has ended.
+      </p>
+      <p>
+        We introduce <strong>RNG-Bench</strong> (<em>Reconstructive Non-Markov Games</em>), a
+        benchmark suite designed to isolate a base model's ability to reconstruct past observations
+        and act on them during multi-step interaction. RNG-Bench includes two complementary games —
+        <strong>Matching Pairs</strong>, where briefly revealed card identities must later be recalled
+        by location, and <strong>3D Maze</strong>, where egocentric views must be integrated into a
+        spatial map — both run under a unified harness with three controlled difficulty axes
+        (<em>grid size</em>, <em>visual pattern</em>, and <em>observation modality</em>), a
+        head-to-head <em>duel</em> protocol that removes instance variance, and a <em>Memory Gap</em>
+        metric that disentangles forgetting from poor action selection.
+      </p>
+      <p>
+        The hardest configurations require contexts of roughly <strong>128K tokens and 350 image
+        inputs</strong> per episode and remain far from saturated by frontier MLLMs. Memory Gap
+        analysis shows that most residual errors stem from forgetting earlier observations rather
+        than from suboptimal decision making. Finally, fine-tuning Qwen3.5-9B on optimal-policy
+        rollouts and filtered model demonstrations improves performance on RNG-Bench and transfers
+        to existing benchmarks without degrading general multimodal capability.
+      </p>
+    </div>
+
+    <div class="model-lineup">
+      <div class="model-chip"><img src="static/images/logos/openai.png" alt="OpenAI"><span>GPT-5.4</span></div>
+      <div class="model-chip"><img src="static/images/logos/gemini.png" alt="Google"><span>Gemini-3.1-Pro</span></div>
+      <div class="model-chip"><img src="static/images/logos/kimi.png" alt="Kimi"><span>Kimi-K2.5</span></div>
+      <div class="model-chip"><img src="static/images/logos/qwen.png" alt="Qwen"><span>Qwen3.5-397B</span></div>
+      <div class="model-chip"><img src="static/images/logos/bytedance.png" alt="ByteDance"><span>Seed-2.0-Lite</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ RESULTS ════════════ -->
+<section class="section section-alt" id="results">
+  <div class="container is-max-desktop">
+    <span class="section-kicker">Results</span>
+    <h2 class="section-title">Frontier MLLMs are <span class="accent">far from saturation</span></h2>
+    <p class="section-lead">
+      Single-player Matching Pairs at <strong>10×10 (image, noise theme)</strong> and 3D Maze at
+      <strong>13×13 (no minimap, mean optimal path 60 steps)</strong>.
+    </p>
+
+    <div class="table-container">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Model</th>
+            <th colspan="4">Matching Pairs 10×10</th>
+            <th colspan="5" class="grp">3D Maze 13×13</th>
+          </tr>
+          <tr>
+            <th>PF%↓</th><th>IA%↓</th><th>Resp./Score↓</th><th>Score%↑</th>
+            <th class="grp">SR%↑</th><th>Explore%↑</th><th>Walls↓</th><th>Eff.%↑</th><th>GS%↑</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="model-name"><img class="model-logo" src="static/images/logos/openai.png" alt="">GPT-5.4</td>
+            <td><span class="best">0.0</span></td><td>4.3</td><td><span class="best">8.01</span></td><td><span class="best">62.3</span></td>
+            <td class="grp">20.0</td><td>32.3</td><td>3.2</td><td><span class="best">75.7</span></td><td>30.5</td>
+          </tr>
+          <tr>
+            <td class="model-name"><img class="model-logo" src="static/images/logos/gemini.png" alt="">Gemini-3.1-Pro</td>
+            <td>0.4</td><td><span class="best">2.5</span></td><td>10.00</td><td>50.0</td>
+            <td class="grp"><span class="best">50.0</span></td><td><span class="best">36.4</span></td><td><span class="best">0.1</span></td><td>62.5</td><td><span class="best">49.7</span></td>
+          </tr>
+          <tr>
+            <td class="model-name"><img class="model-logo" src="static/images/logos/bytedance.png" alt="">Seed-2.0-Lite</td>
+            <td>1.2</td><td>4.3</td><td>11.57</td><td>43.2</td>
+            <td class="grp">20.0</td><td>19.4</td><td>16.6</td><td>38.9</td><td>21.7</td>
+          </tr>
+          <tr>
+            <td class="model-name"><img class="model-logo" src="static/images/logos/kimi.png" alt="">Kimi-K2.5</td>
+            <td>1.8</td><td>2.8</td><td>13.16</td><td>38.0</td>
+            <td class="grp">10.0</td><td>17.9</td><td>7.1</td><td>61.1</td><td>16.1</td>
+          </tr>
+          <tr>
+            <td class="model-name"><img class="model-logo" src="static/images/logos/qwen.png" alt="">Qwen3.5-397B</td>
+            <td><span class="best">0.0</span></td><td>3.0</td><td>19.74</td><td>25.3</td>
+            <td class="grp">0.0</td><td>21.0</td><td>9.9</td><td>0.0</td><td>10.5</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="compare-note"><strong>Single-player.</strong> <strong>Score%</strong> = fraction of matched pairs; <strong>GS%</strong> = aggregate maze score (success rate, efficiency, exploration). PF/IA = parse-failure / invalid-action rates; Resp./Score = responses per matched pair; Eff. averaged over successful episodes only. Best per column in bold.</p>
+
+    <h3 class="subhead">Duel — Matching Pairs (image, poker)</h3>
+    <p class="section-lead" style="margin-bottom:1rem;">Each model plays 16 games against the other four (both player orders, two seeds). The ranking <strong>flips</strong> from single-player: Gemini-3.1-Pro wins every matchup by exploiting cards revealed by its opponent.</p>
+    <div class="table-container">
+      <table class="results-table">
+        <thead>
+          <tr><th>Model</th><th>Win%↑</th><th>W</th><th>T</th><th>L</th><th>Score%↑</th><th>ELO↑</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="model-name"><img class="model-logo" src="static/images/logos/gemini.png" alt="">Gemini-3.1-Pro</td><td><span class="best">100.0</span></td><td>16</td><td>0</td><td>0</td><td><span class="best">36.5</span></td><td><span class="best">1803</span></td></tr>
+          <tr><td class="model-name"><img class="model-logo" src="static/images/logos/openai.png" alt="">GPT-5.4</td><td>50.0</td><td>7</td><td>2</td><td>7</td><td>25.3</td><td>1492</td></tr>
+          <tr><td class="model-name"><img class="model-logo" src="static/images/logos/qwen.png" alt="">Qwen3.5-397B</td><td>46.7</td><td>7</td><td>1</td><td>8</td><td>18.0</td><td>1476</td></tr>
+          <tr><td class="model-name"><img class="model-logo" src="static/images/logos/kimi.png" alt="">Kimi-K2.5</td><td>37.5</td><td>5</td><td>2</td><td>9</td><td>18.0</td><td>1423</td></tr>
+          <tr><td class="model-name"><img class="model-logo" src="static/images/logos/bytedance.png" alt="">Seed-2.0-Lite</td><td>15.6</td><td>2</td><td>1</td><td>13</td><td>12.3</td><td>1306</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="findings-list">
+      <li>
+        <strong>Single-player and duel rankings diverge.</strong>
+        In 16 head-to-head matches on the same 8×10 boards, Gemini-3.1-Pro wins every matchup
+        (averaging 14.6 matched pairs/game vs. GPT-5.4's 10.1), while single-player ranks GPT-5.4 first —
+        duels reward exploiting opponent-revealed cards, a channel single-player cannot probe.
+      </li>
+      <li>
+        <strong>Performance drops sharply as the hidden state grows.</strong>
+        Qwen3.5-397B falls from 90.6 % on 4×4 to 0.7 % on 12×12 Matching Pairs;
+        its 3D-Maze Game Score peaks at 7×7 (66.7) and declines to 19.7 by 15×15.
+      </li>
+      <li>
+        <strong>Visual recognition, not history length, is the bottleneck.</strong>
+        Qwen3.5-397B and Kimi-K2.5 solve Matching Pairs perfectly under text, but fall to 38.3 % and 43.3 %
+        under noise-pattern images at the same scale.
+      </li>
+      <li>
+        <strong>The textual action trace is load-bearing.</strong>
+        Removing the model's own action history collapses GPT-5.4 from 62.3 % to 15.3 % at 10×10 — even though
+        every flip is visible in the board image — so the action trace is not redundant decoration.
+      </li>
+      <li>
+        <strong>Large headroom remains.</strong>
+        An optimal policy needs only 3.24 responses per matched pair versus 8.01 for the strongest model —
+        roughly 60 % fewer moves.
+      </li>
+    </ul>
+
+    <div class="fig-row">
+      <div>
+        <div class="fig" style="margin-top: 0;">
+          <img src="static/images/scale_sweep.png" alt="Scale sweep across grid sizes">
+        </div>
+        <p class="fig-caption">Score degrades smoothly as the hidden state grows.</p>
+      </div>
+      <div>
+        <div class="fig" style="margin-top: 0;">
+          <img src="static/images/case_dual.png" alt="Gemini-vs-GPT duel trajectories">
+        </div>
+        <p class="fig-caption">Gemini-3.1-Pro consistently out-paces GPT-5.4 on duel boards.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ CONTRIBUTIONS ════════════ -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <span class="section-kicker">Controllable difficulty</span>
+    <h2 class="section-title">Four axes, <span class="accent">held-out everything else</span></h2>
+    <p class="section-lead">
+      Both games share one harness and one strict parser, so a change along any axis maps to belief-state
+      tracking rather than a parallel confound. Scaling the grid raises the hidden-state load and the
+      episode length together — up to ~128K tokens and 350 images per episode.
+    </p>
+
+    <div class="table-container">
+      <table class="compare-table axes-table">
+        <thead>
+          <tr><th>Axis</th><th>Matching Pairs</th><th>3D Maze</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Scale</td><td>board size 4×4 → 12×14</td><td>maze size 5×5 → 15×15</td></tr>
+          <tr><td>Modality</td><td>text · ASCII image · pattern image</td><td>text-symbolic · 2D patch · 3D scene</td></tr>
+          <tr><td>Pattern</td><td>poker · noise · textures · perlin · …</td><td>wall-style variants</td></tr>
+          <tr><td>External memory</td><td>re-show prior snapshots (oracle)</td><td>minimap on / off</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="compare-note">
+      Plus per-game interventions — action feedback, CoT, response budget (Matching Pairs);
+      ask-output, history window (3D Maze) — a head-to-head <strong>duel</strong> protocol that removes
+      instance variance, and a <strong>Memory Gap</strong> metric (oracle vs. normal) that separates
+      forgetting from action choice.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════ TWO GAMES ════════════ -->
+<section class="section section-alt" id="games">
+  <div class="container is-max-desktop">
+    <span class="section-kicker">Environments</span>
+    <h2 class="section-title">Two complementary <span class="accent">hidden-state regimes</span></h2>
+    <p class="section-lead">
+      Both games are simple but diagnostic POMDPs: rule misunderstanding is held fixed by in-prompt rules
+      and a strict parser, so drops along any axis reflect belief-state tracking, not parallel confounds.
+    </p>
+
+    <div class="columns">
+      <div class="column is-half">
+        <div class="game-card">
+          <h3><i class="fas fa-clone" style="color:var(--accent);font-size:0.85em;margin-right:0.4em;"></i>Matching Pairs</h3>
+          <p>
+            A rectangular grid of face-down card pairs. Each turn the model flips two cards: matched
+            pairs disappear, unmatched pairs flip back. The hidden state is the set of identity-location
+            bindings briefly seen and now hidden.
+          </p>
+          <div class="tag-row">
+            <span class="tag">static</span>
+            <span class="tag">categorical</span>
+            <span class="tag">4×4 → 12×14</span>
+          </div>
+          <p class="game-meta">
+            <strong>Axes:</strong> board size · visual pattern (poker, noise, textures, …) ·
+            modality (text / image) · action feedback · CoT · response budget.
+          </p>
+        </div>
+      </div>
+
+      <div class="column is-half">
+        <div class="game-card">
+          <h3><i class="fas fa-compass" style="color:var(--accent);font-size:0.85em;margin-right:0.4em;"></i>3D Maze</h3>
+          <p>
+            The agent navigates from start to goal in a procedurally generated maze, seeing only an
+            egocentric first-person rendering and the dialogue history. The hidden state is the topology,
+            visited cells, position, and orientation — built incrementally from local views.
+          </p>
+          <div class="tag-row">
+            <span class="tag">dynamic</span>
+            <span class="tag">spatial</span>
+            <span class="tag">5×5 → 15×15</span>
+          </div>
+          <p class="game-meta">
+            <strong>Axes:</strong> maze size · minimap availability ·
+            ask-output prompting (externalize belief) · history window length.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="fig" style="margin-top:1.6rem;">
+      <img src="static/images/two_games.png" alt="The two environments: observation, action, hidden state, and optimal play">
+    </div>
+    <p class="fig-caption">For each game: what the model observes, the action it takes, the hidden state it must reconstruct, and what optimal play looks like — plus the pattern / size / modality / memory variants.</p>
+  </div>
+</section>
+
+<!-- ════════════ POSITIONING ════════════ -->
+<section class="section" id="positioning">
+  <div class="container is-max-desktop">
+    <span class="section-kicker">Positioning</span>
+    <h2 class="section-title">Why another game benchmark?</h2>
+    <p class="section-lead">
+      Prior LLM/VLM game and memory benchmarks rarely make non-Markov, <em>remember-to-act</em> the
+      central, controllable axis: many expose the full state, others bundle hidden information with
+      exploration / planning / social skills, and memory suites probe recall only with a post-hoc
+      question. RNG-Bench is closed-loop, multimodal, non-Markov-focused, and scalable at once.
+    </p>
+
+    <div class="table-container">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Benchmark</th>
+            <th>Eval</th>
+            <th>Multimodal</th>
+            <th>Closed-loop</th>
+            <th>NM-focus</th>
+            <th>Scalable</th>
+            <th>Max Ctx (K)</th>
+            <th>Max #Img</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GameBench <span style="color:var(--ink-3)">· fully-visible games</span></td>
+            <td>Agent</td><td><span class="part">~</span></td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10007;</span></td><td><span class="no">&#10007;</span></td><td>6</td><td>1</td>
+          </tr>
+          <tr>
+            <td>AgentBench <span style="color:var(--ink-3)">· agent suite</span></td>
+            <td>Agent</td><td><span class="no">&#10007;</span></td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10007;</span></td><td><span class="no">&#10007;</span></td><td>12</td><td>0</td>
+          </tr>
+          <tr>
+            <td>BALROG <span style="color:var(--ink-3)">· RL POMDPs</span></td>
+            <td>Base</td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10007;</span></td><td><span class="part">~</span></td><td>16</td><td>1</td>
+          </tr>
+          <tr>
+            <td>AvalonBench <span style="color:var(--ink-3)">· hidden roles</span></td>
+            <td>Agent</td><td><span class="no">&#10007;</span></td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10007;</span></td><td><span class="no">&#10007;</span></td><td>3.5</td><td>0</td>
+          </tr>
+          <tr>
+            <td>EMemBench <span style="color:var(--ink-3)">· episodic memory QA</span></td>
+            <td>Both</td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10007;</span></td><td><span class="no">&#10007;</span></td><td><span class="no">&#10007;</span></td><td>20</td><td>4</td>
+          </tr>
+          <tr class="ours">
+            <td>RNG-Bench <span style="color:var(--ink-3)">· ours</span></td>
+            <td>Base</td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td>128</td><td>350</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="compare-note">
+      <span class="yes">&#10003;</span> yes · <span class="part">~</span> partial · <span class="no">&#10007;</span> no.
+      <strong>Eval</strong>: raw model (Base) vs. wrapped harness (Agent). <strong>NM-focus</strong>: non-Markov recall as the central axis.
+      A representative row per family is shown; see the paper for the full table.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════ GAMEPLAY ════════════ -->
+<section class="section section-alt">
+  <div class="container is-max-desktop">
+    <span class="section-kicker">Gameplay</span>
+    <h2 class="section-title">A single Matching Pairs round</h2>
+    <p class="section-lead">
+      The model never sees the ground-truth board (right) — at every step it observes only the current
+      flips, then must use history to choose the next two coordinates.
+    </p>
+
+    <div class="gameplay-strip">
+      <div class="gameplay-step">
+        <img src="static/images/gameplay/mp_start.jpg" alt="Round start">
+        <span class="step-label"><span class="step-num">1</span>Round start</span>
+      </div>
+      <div class="gameplay-step">
+        <img src="static/images/gameplay/mp_flip1.jpg" alt="First flip revealed">
+        <span class="step-label"><span class="step-num">2</span>Flip A1</span>
+      </div>
+      <div class="gameplay-step">
+        <img src="static/images/gameplay/mp_both.jpg" alt="Both flips revealed">
+        <span class="step-label"><span class="step-num">3</span>Flip B1</span>
+      </div>
+      <div class="gameplay-step is-oracle">
+        <img src="static/images/gameplay/mp_truth.jpg" alt="Ground-truth board (oracle)">
+        <span class="step-label"><span class="step-num">★</span>Oracle only</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ MEMORY GAP ════════════ -->
+<section class="section" id="memory-gap">
+  <div class="container is-max-desktop">
+    <span class="section-kicker">Metric</span>
+    <h2 class="section-title">Memory Gap: <span class="accent">forgetting vs. decision-making</span></h2>
+
+    <div class="columns is-vcentered" style="margin-top: 1.4rem;">
+      <div class="column is-half">
+        <div class="content">
+          <p>For each model we run two conditions on the same instance:</p>
+          <ul>
+            <li><strong>Normal</strong> — the model sees only the current observation plus the in-context history.</li>
+            <li><strong>Oracle</strong> — the true hidden state is injected into the prompt at every step.</li>
+          </ul>
+          <div class="formula-block">
+            MemoryGap(m) = (1 − S(m) / S<sup>*</sup>(m)) × 100&nbsp;%
+          </div>
+          <p>
+            A <strong>large gap</strong> localizes the bottleneck to belief-state reconstruction. A
+            <strong>small gap</strong> points to perception, decision-making, or rule understanding.
+          </p>
+        </div>
+      </div>
+
+      <div class="column is-half">
+        <div class="fig" style="margin-top: 0;">
+          <img src="static/images/memory_gap.png" alt="Memory Gap chart">
+        </div>
+        <p class="fig-caption">Injecting external memory (a MemMap for Matching Pairs, a minimap for 3D Maze) recovers a large Memory Gap — 46–51 points on Matching Pairs and 31–41 on 3D Maze — confirming forgetting as the dominant bottleneck.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ TRAINING ════════════ -->
+<section class="section section-alt" id="training">
+  <div class="container is-max-desktop">
+    <span class="section-kicker">Training</span>
+    <h2 class="section-title">Closing the gap with <span class="accent">simulator rollouts</span></h2>
+    <p class="section-lead">
+      Because both environments are simulators, we can roll out fresh trajectories with <em>known optimal
+      actions</em> and use them as supervision — training and evaluation use disjoint board / maze sizes
+      and seeds, so no training instance recurs at test time.
+    </p>
+
+    <div class="table-container">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Qwen3.5-9B (held-out scale)</th>
+            <th>Match Score%↑</th><th>Match Resp./Score↓</th><th>Maze SR%↑</th><th>Maze GS%↑</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="model-name">base</td><td>0.0</td><td>—</td><td>0.0</td><td>1.5</td></tr>
+          <tr><td class="model-name">+ <code>opt32k</code> (optimal-policy)</td><td>14.6</td><td>14.7</td><td>0.0</td><td>5.0</td></tr>
+          <tr><td class="model-name">+ <code>rmix32k</code> (optimal + model rollouts)</td><td><span class="best">29.5</span></td><td><span class="best">6.8</span></td><td><span class="best">10.0</span></td><td><span class="best">16.3</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="compare-note">
+      Evaluation sizes are strictly larger than the training pool. Optimal rollouts teach the rules;
+      adding 6K filtered model rollouts (<code>rmix32k</code>) nearly halves response cost and gives the
+      first non-zero maze success. The same checkpoint also transfers outward — <strong>EMemBench +5.2</strong>,
+      a memory / spatial suite <strong>+3.4</strong> (group mean) — with general multimodal capability
+      preserved (<strong>+0.5</strong> group mean).
+    </p>
+  </div>
+</section>
+
+<!-- ════════════ BIBTEX ════════════ -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop">
+    <span class="section-kicker">Cite</span>
+    <h2 class="section-title">BibTeX</h2>
+    <div class="bibtex-block">
+<pre><code>@article{rngbench2026,
+  title   = {Beyond the Current Observation: Evaluating Multimodal
+             Language Models in Non-Markov Games},
+  author  = {Ding, Shengyuan and Wei, Xilin and Fang, Xinyu and Duan, Haodong
+             and Lin, Dahua and Wang, Jiaqi and Zang, Yuhang},
+  journal = {arXiv preprint},
+  year    = {2026},
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer class="footer">
+  <p>
+    Page template adapted from
+    <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>,
+    licensed under
+    <a href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+  </p>
+</footer>
+
+</body>
+</html>

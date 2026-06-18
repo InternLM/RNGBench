@@ -1,0 +1,79 @@
+# ── Python ────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual environments
+.env
+.venv/
+venv/
+
+# ── IDE / Editor ──────────────────────────────────────────────────
+.idea/
+.vscode/
+.cursorignore
+.cursor/
+.claude/
+*.swp
+.history/
+pyrightconfig.json
+
+# ── Type checker / Linter ─────────────────────────────────────────
+.mypy_cache/
+.dmypy.json
+.pytype/
+.pyre/
+.pytest_cache/
+.ruff_cache/
+
+# ── OS ────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Temp ──────────────────────────────────────────────────────────
+tmp/
+.cache/
+
+# ── Project-specific ─────────────────────────────────────────────
+# External repos / local deps — not tracked
+other_repo/
+
+# Experiment results (lots of JSON + images) — not tracked
+**/*result*/
+
+# Deleted directories (guard against accidental restore)
+test_api/
+
+# Logs
+*.log
+**/log/
+**/logs/
+progress_log/
+
+# Jupyter
+.ipynb_checkpoints/
+
+**/*test_duel*/
+**/.codex
+**/assets/
+!1_matching_pairs_new/assets
+/common/
+**/results*/
+**/*result*/
+
+# Legacy / pre-refactor code — kept locally, not shipped
+legacy_code/
+
+# Internal — data-generation engines (not open-sourced yet, kept locally)
+data_engine_internal/
+
+# Internal — personal/experiment scripts (kept locally; example scripts live in
+# each game's scripts/). Keep ad-hoc logs under progress_log/ instead.
+**/scripts_self/
