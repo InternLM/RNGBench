@@ -22,8 +22,9 @@
 <p align="center">
   <a href="https://arxiv.org/abs/2606.19338"><img alt="arXiv" src="https://img.shields.io/badge/arXiv-2606.19338-b31b1b?style=flat-square&logo=arxiv&logoColor=white"></a>
   <a href="https://internlm.github.io/RNGBench/"><img alt="Project Page" src="https://img.shields.io/badge/Project-Page-4f46e5?style=flat-square&logo=githubpages&logoColor=white"></a>
-  <a href="#"><img alt="HF Dataset" src="https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-coming%20soon-yellow?style=flat-square"></a>
-  <a href="#"><img alt="HF Daily Paper" src="https://img.shields.io/badge/%F0%9F%A4%97%20Daily%20Paper-coming%20soon-yellow?style=flat-square"></a>
+  <a href="https://huggingface.co/papers/2606.19338"><img alt="HF Paper" src="https://img.shields.io/badge/%F0%9F%A4%97%20Paper-2606.19338-yellow?style=flat-square"></a>
+  <a href="https://huggingface.co/datasets/internlm/RNGBench-Game-Trajectories"><img alt="HF Dataset" src="https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-Game%20Trajectories-yellow?style=flat-square"></a>
+  <a href="https://huggingface.co/collections/ChrisDing1105/rngbench"><img alt="HF Collection" src="https://img.shields.io/badge/%F0%9F%A4%97%20Collection-RNGBench-yellow?style=flat-square"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-MIT-green?style=flat-square"></a>
 </p>
 

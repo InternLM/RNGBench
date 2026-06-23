@@ -1,0 +1,8 @@
+# RNG-Bench Playground backend.
+# Game logic is reused from ../1_matching_pairs_new and ../2_3d_maze
+# (which also need pillow + numpy, already in the repo-root requirements.txt).
+fastapi
+uvicorn[standard]
+httpx
+pillow
+numpy
