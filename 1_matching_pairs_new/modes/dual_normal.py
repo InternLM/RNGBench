@@ -39,7 +39,6 @@ from common.prompts import (                                                 # n
     retry_parse_fail,
     retry_invalid_coord,
 )
-from common.llm_call import call_llm_with_retry                              # noqa: E402
 from common.optimal import compute_optimal_resp_times                        # noqa: E402
 from model_presets import make_client, parse_grid_size                       # noqa: E402
 
@@ -309,7 +308,7 @@ def _run_flip_first(
             return None
 
         materialized = materialize(messages, image_store) if image_store else messages
-        resp = call_llm_with_retry(client, materialized)
+        resp = client.chat(materialized)
         content = resp.get("content", "")
         reasoning = resp.get("reasoning")
 
@@ -363,7 +362,7 @@ def _run_flip_second(
             return None, None
 
         materialized = materialize(messages, image_store) if image_store else messages
-        resp = call_llm_with_retry(client, materialized)
+        resp = client.chat(materialized)
         content = resp.get("content", "")
         reasoning = resp.get("reasoning")
 

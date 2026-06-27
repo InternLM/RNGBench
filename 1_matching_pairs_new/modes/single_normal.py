@@ -37,8 +37,8 @@ from common.prompts import (                                                 # n
     retry_parse_fail,
     retry_invalid_coord,
 )
-from common.llm_call import call_llm_with_retry                              # noqa: E402
 from common.optimal import compute_optimal_resp_times                        # noqa: E402
+from common.oracle_memory import oracle_observation_part, oracle_note_part   # noqa: E402
 from model_presets import make_client, parse_grid_size                       # noqa: E402
 
 logger = logging.getLogger(__name__)
@@ -53,7 +53,7 @@ def _text(t: str) -> Dict[str, Any]:
 # ── Message construction ──────────────────────────────────────────────────
 
 def _flip_first_user_msg(obs: Observation, br: BoardRenderer, round_idx: int,
-                         cot_enabled: bool) -> Dict[str, Any]:
+                         cot_enabled: bool, oracle_seen=None) -> Dict[str, Any]:
     parts: List[Dict[str, Any]] = []
     if obs.last_result is not None:
         r = obs.last_result
@@ -65,18 +65,24 @@ def _flip_first_user_msg(obs: Observation, br: BoardRenderer, round_idx: int,
     else:
         parts.append(_text(f"Remaining pairs: {obs.remaining_pairs}. Score: {obs.score}."))
     parts.append(_text(f"Round {round_idx} start — current board:"))
-    parts.append(br.board_part(name=f"round_{round_idx:03d}_start"))
+    if oracle_seen is not None:
+        parts.append(oracle_note_part())
+        parts.append(oracle_observation_part(br, round_idx, oracle_seen, "start"))
+    else:
+        parts.append(br.board_part(name=f"round_{round_idx:03d}_start"))
     parts.append(_text(FLIP_FIRST_INSTRUCTION + "\n" + action_format_hint(cot_enabled)))
     return {"role": "user", "content": parts}
 
 
 def _flip_second_user_msg(obs: Observation, br: BoardRenderer, round_idx: int,
-                          cot_enabled: bool) -> Dict[str, Any]:
-    parts = [
-        _text("Board after your first flip:"),
-        br.board_part(name=f"round_{round_idx:03d}_flip1"),
-        _text(FLIP_SECOND_INSTRUCTION + "\n" + action_format_hint(cot_enabled)),
-    ]
+                          cot_enabled: bool, oracle_seen=None) -> Dict[str, Any]:
+    parts = [_text("Board after your first flip:")]
+    if oracle_seen is not None:
+        parts.append(oracle_note_part())
+        parts.append(oracle_observation_part(br, round_idx, oracle_seen, "flip1"))
+    else:
+        parts.append(br.board_part(name=f"round_{round_idx:03d}_flip1"))
+    parts.append(_text(FLIP_SECOND_INSTRUCTION + "\n" + action_format_hint(cot_enabled)))
     return {"role": "user", "content": parts}
 
 
@@ -221,6 +227,7 @@ def run_one_game(
     max_retries: int,
     label: Optional[str] = None,
     cot_enabled: bool = True,
+    oracle_memory: bool = False,
 ) -> Dict[str, Any]:
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -256,13 +263,15 @@ def run_one_game(
         "max_responses": max_responses,
         "max_retries": max_retries,
         "cot_enabled": cot_enabled,
+        "oracle_memory": oracle_memory,
         "ground_truth": gt_part,
         "ground_truth_text": gt_text,
         "optimal_resp_times_greedy": optimal_greedy,
     }
 
     # Resume from a partial game.json if present (env replay + messages rebuild).
-    resume = _try_resume_from_partial(out_dir / "game.json", env, br, image_store)
+    # Oracle-memory runs start fresh (the `seen` set can't be reconstructed cheaply).
+    resume = None if oracle_memory else _try_resume_from_partial(out_dir / "game.json", env, br, image_store)
     if resume is not None:
         resume_turns, round_idx, messages = resume
         obs = env.get_observation()
@@ -277,6 +286,7 @@ def run_one_game(
         round_idx = 0
 
     error: Optional[str] = None
+    seen: set = set()  # all coords revealed so far (oracle-memory mode only)
 
     try:
         while not obs.done and tlog.response_count < max_responses:
@@ -286,7 +296,8 @@ def run_one_game(
             coord1, _ = _run_flip(
                 phase_label="flip_first",
                 round_idx=round_idx,
-                user_msg=_flip_first_user_msg(obs, br, round_idx, cot_enabled),
+                user_msg=_flip_first_user_msg(obs, br, round_idx, cot_enabled,
+                                              oracle_seen=(seen if oracle_memory else None)),
                 br=br, env=env, messages=messages, client=client,
                 image_store=image_store, tlog=tlog,
                 max_retries=max_retries, max_responses=max_responses,
@@ -299,6 +310,7 @@ def run_one_game(
                     "no cards flipped.")]})
                 obs = env.get_observation()
                 continue
+            seen.add(coord1)
 
             obs = env.get_observation()
 
@@ -306,7 +318,8 @@ def run_one_game(
             coord2, both_ref = _run_flip(
                 phase_label="flip_second",
                 round_idx=round_idx,
-                user_msg=_flip_second_user_msg(obs, br, round_idx, cot_enabled),
+                user_msg=_flip_second_user_msg(obs, br, round_idx, cot_enabled,
+                                               oracle_seen=(seen if oracle_memory else None)),
                 br=br, env=env, messages=messages, client=client,
                 image_store=image_store, tlog=tlog,
                 max_retries=max_retries, max_responses=max_responses,
@@ -321,6 +334,7 @@ def run_one_game(
                           "Your first card was flipped back face-down. Round forfeited."),
                 ]})
                 continue
+            seen.add(coord2)
 
             obs = env.get_observation()
             r = obs.last_result or {}
@@ -377,7 +391,7 @@ def _run_flip(
             return None, None
 
         materialized = materialize(messages, image_store) if image_store else messages
-        resp = call_llm_with_retry(client, materialized)
+        resp = client.chat(materialized)
         content = resp.get("content", "")
         reasoning = resp.get("reasoning")
 
@@ -462,6 +476,9 @@ def main() -> None:
     group.add_argument("--no-cot", dest="cot_enabled", action="store_false",
                        help="Require only Action output; no reasoning line.")
     parser.set_defaults(cot_enabled=True)
+    parser.add_argument("--oracle-memory", action="store_true", default=False,
+                        help="Memory-Gap oracle: append a 'memory aid' board (all cards "
+                             "revealed so far, face-up) beside each observation. Off by default.")
     parser.add_argument("--out", required=True,
                         help="Output root; actual run dir is computed by common.output_layout.")
     parser.add_argument("--on-exists", choices=ON_EXISTS_CHOICES, default="overwrite",
@@ -504,6 +521,7 @@ def main() -> None:
         out_dir=run_dir,
         max_responses=max_resp, max_retries=args.max_retries,
         cot_enabled=args.cot_enabled,
+        oracle_memory=args.oracle_memory,
     )
     logger.info(f"RUN_DIR: {run_dir}")
     logger.info(f"RESULT: {result}")

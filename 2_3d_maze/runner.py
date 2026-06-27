@@ -21,7 +21,6 @@ import os
 import random
 import re
 import sys
-import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -728,31 +727,34 @@ class MazeRunner3D:
         """
         Have the LLM choose an action. The current step's user message is already appended to self.messages.
         Returns (action, raw_output, attempts, used_fallback).
-        API errors do not count as parse attempts; they are retried separately (capped at 20).
+        Transient network errors are retried inside framework's LLMClient.chat();
+        a 400 content-filter is recovered here by trimming the oldest message pair.
+        Any other error propagates so the game finalizes with an error.
         """
         valid_actions = ACTIONS_V5 if self.action_space == "v5" else ACTIONS
         action_hint = "|".join(valid_actions)
 
-        MAX_API_RETRIES = 120
+        MAX_FILTER_TRIMS = 20          # bound the 400 content-filter recovery
         raw = ""
         parse_attempts = 0
-        api_errors = 0
+        filter_trims = 0
 
         while parse_attempts <= self.max_retries:
             try:
                 raw = self.client.chat(self._trim_messages_for_api())["content"]
             except Exception as e:
-                api_errors += 1
+                # Framework already retried transient network errors; anything that
+                # reaches here is a real error. Recover only from a 400 content-filter
+                # by trimming the oldest message pair — everything else propagates.
                 err_str = str(e)
-                logger.warning(f"API error ({api_errors}/{MAX_API_RETRIES}): {err_str[:200]}")
-                if "400" in err_str or "invalid_prompt" in err_str or "BadRequest" in err_str:
-                    if len(self.messages) > 3:
-                        self.messages = self.messages[:1] + self.messages[3:]
-                        logger.warning("Trimmed oldest message pair due to API content filter.")
-                if api_errors >= MAX_API_RETRIES:
-                    break
-                time.sleep(random.uniform(0, 2))
-                continue
+                is_filter = ("400" in err_str or "invalid_prompt" in err_str or "BadRequest" in err_str)
+                if is_filter and filter_trims < MAX_FILTER_TRIMS and len(self.messages) > 3:
+                    filter_trims += 1
+                    self.messages = self.messages[:1] + self.messages[3:]
+                    logger.warning(f"Trimmed oldest message pair due to API content filter "
+                                   f"({filter_trims}/{MAX_FILTER_TRIMS}).")
+                    continue
+                raise
 
             action = parse_action(raw, action_space=self.action_space)
 
@@ -777,7 +779,7 @@ class MazeRunner3D:
         # Fallback: random valid action
         avail = self.env.get_available_actions()
         fallback = self.fallback_rng.choice(avail if avail else valid_actions)
-        logger.warning(f"All attempts exhausted (parse={parse_attempts}, api_errors={api_errors}). Fallback: {fallback}")
+        logger.warning(f"All parse attempts exhausted (parse={parse_attempts}). Fallback: {fallback}")
         self.messages.append({"role": "assistant", "content": raw if raw.strip() else "..."})
         return fallback, raw, self.max_retries + 1, True
 
