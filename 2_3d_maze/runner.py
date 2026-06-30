@@ -578,10 +578,21 @@ class MazeRunner3D:
             max_steps=max_steps,
             minimap_size=140,
         )
-        # ask_map / ask_trajectory need more tokens for the ASCII map output
-        # (2N+1)^2 wall map is larger: 9x9→361 chars, 11x11→529 chars.
-        # framework LLMClient reads max_tokens from extra_params (no .max_tokens attr)
-        self.client.extra_params["max_tokens"] = 2048 if (ask_map or ask_trajectory) else 512
+        # Per-call output budget. ask_map / ask_trajectory need more tokens for
+        # the ASCII map output ((2N+1)^2 wall map: 9x9→361 chars, 11x11→529).
+        # Thinking models spend most of their budget on the (hidden) reasoning
+        # trace before emitting the short `Thought:/Action:`, so a 512/2048 cap
+        # starves the visible answer to empty — give them a large budget instead.
+        # Write to whichever token key the preset already uses: some endpoints
+        # (e.g. Volcengine Ark) reject a request carrying BOTH `max_tokens` and
+        # `max_completion_tokens`, so we must not introduce a second key.
+        _thinking = bool((self.client.extra_body or {}).get("thinking", {}).get("type") == "enabled")
+        if _thinking:
+            _tok = 32768
+        else:
+            _tok = 2048 if (ask_map or ask_trajectory) else 512
+        _tok_key = "max_completion_tokens" if "max_completion_tokens" in self.client.extra_params else "max_tokens"
+        self.client.extra_params[_tok_key] = _tok
         self.messages: List[Dict[str, Any]] = [
             {"role": "system", "content": sys_prompt}
         ]
