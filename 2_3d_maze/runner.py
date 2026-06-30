@@ -751,8 +751,20 @@ class MazeRunner3D:
         filter_trims = 0
 
         while parse_attempts <= self.max_retries:
+            used_reasoning = False
             try:
-                raw = self.client.chat(self._trim_messages_for_api())["content"]
+                resp = self.client.chat(self._trim_messages_for_api())
+                raw = resp.get("content") or ""
+                # Thinking models on a long multi-image history sometimes emit the
+                # whole answer (including the final `Action:`) in reasoning_content
+                # and leave `content` empty (finish_reason=stop — not a truncation
+                # or timeout). Fall back to the reasoning so the action can still be
+                # parsed instead of degrading to a random forfeit.
+                if not raw.strip():
+                    _r = resp.get("reasoning") or ""
+                    if _r.strip():
+                        raw = _r
+                        used_reasoning = True
             except Exception as e:
                 # Framework already retried transient network errors; anything that
                 # reaches here is a real error. Recover only from a 400 content-filter
@@ -773,7 +785,8 @@ class MazeRunner3D:
                 parse_attempts += 1
                 logger.warning(f"Parse attempt {parse_attempts}/{self.max_retries + 1}: failed to parse action from: {raw}")
                 if parse_attempts <= self.max_retries:
-                    self.messages.append({"role": "assistant", "content": raw if raw.strip() else "..."})
+                    # Don't fold a long unparseable reasoning trace into history.
+                    self.messages.append({"role": "assistant", "content": (raw if (raw.strip() and not used_reasoning) else "...")})
                     self.messages.append({
                         "role": "user",
                         "content": (
@@ -784,14 +797,18 @@ class MazeRunner3D:
                     })
                 continue
 
-            self.messages.append({"role": "assistant", "content": raw if raw.strip() else "..."})
+            # Store a compact assistant turn. If the answer came from the
+            # reasoning trace (content was empty), keep only the parsed action so
+            # the long trace doesn't bloat the re-sent history every round.
+            hist = f"Thought: (in reasoning)\nAction: {action}" if used_reasoning else (raw if raw.strip() else "...")
+            self.messages.append({"role": "assistant", "content": hist})
             return action, raw, parse_attempts + 1, False
 
         # Fallback: random valid action
         avail = self.env.get_available_actions()
         fallback = self.fallback_rng.choice(avail if avail else valid_actions)
         logger.warning(f"All parse attempts exhausted (parse={parse_attempts}). Fallback: {fallback}")
-        self.messages.append({"role": "assistant", "content": raw if raw.strip() else "..."})
+        self.messages.append({"role": "assistant", "content": "..."})
         return fallback, raw, self.max_retries + 1, True
 
     def run(self) -> GameResult:
