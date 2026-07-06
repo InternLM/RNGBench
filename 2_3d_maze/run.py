@@ -292,7 +292,7 @@ def main():
         bumps = [r.wall_bump_count for r in results]
         logger.info(f"Avg turns:    {sum(turns)/len(turns):.1f}")
         logger.info(f"Avg bumps:    {sum(bumps)/len(bumps):.1f}")
-        logger.info(f"Total fallbacks: {sum(r.random_fallback_count for r in results)}")
+        logger.info(f"Total fallbacks: {sum(r.no_action_count for r in results)}")
         logger.info(sep)
 
 

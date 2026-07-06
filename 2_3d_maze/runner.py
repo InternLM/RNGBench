@@ -308,7 +308,7 @@ class StepRecord:
     message: str
     raw_output: str
     attempts: int
-    used_fallback: bool
+    no_action: bool
     facing_before: str
     facing_after: str
     position_before: Tuple[int, int]   # cell coords
@@ -333,7 +333,7 @@ class GameResult:
     total_cells: int
     exploration_rate: float
     path_efficiency: float   # optimal / actual (1.0 = perfect), 0 if not reached
-    random_fallback_count: int
+    no_action_count: int
     wall_bump_count: int
     turn_count: int
     action_space: str = "v4"
@@ -487,6 +487,10 @@ def _make_feedback(action: str, success: bool, message: str, pos_after: Tuple[in
     """Build the movement-result feedback text (used as the prefix of the next user message)."""
     if success:
         return f"Result: {message}\n\n"
+    elif action is None:
+        return (f"Result: No valid action was parsed from your reply, so you stayed in place. "
+                f"Position unchanged: ({pos_after[0]}, {pos_after[1]}). "
+                f"Reply with exactly one action in the format 'Action: <action>'.\n\n")
     else:
         return f"Result: Action '{action}' FAILED — {message} Position unchanged: ({pos_after[0]}, {pos_after[1]}).\n\n"
 
@@ -600,7 +604,7 @@ class MazeRunner3D:
         # Runtime stats
         self.step_records: List[StepRecord] = []
         self.wall_bump_count = 0
-        self.random_fallback_total = 0
+        self.no_action_total = 0
         self.turn_count = 0
 
     def _checkpoint_path(self) -> Optional[Path]:
@@ -629,11 +633,11 @@ class MazeRunner3D:
             "feedback_prefix": feedback_prefix,
             "run_config": self._checkpoint_run_config(),
             "wall_bump_count": self.wall_bump_count,
-            "random_fallback_total": self.random_fallback_total,
+            "no_action_total": self.no_action_total,
             "turn_count": self.turn_count,
             "steps": [
                 {"action": sr.action, "raw_output": sr.raw_output,
-                 "attempts": sr.attempts, "used_fallback": sr.used_fallback}
+                 "attempts": sr.attempts, "no_action": sr.no_action}
                 for sr in self.step_records
             ],
         }
@@ -685,19 +689,25 @@ class MazeRunner3D:
             # Append saved assistant output
             self.messages.append({"role": "assistant", "content": raw_output if raw_output.strip() else "..."})
 
-            # Replay action on game
+            # Replay action on game. action is None for a no-op step (model gave
+            # no parseable action): stay in place, not a wall bump.
             pos_before = self.env.agent_cell_pos()
             facing_before = self.env.facing
             avail = self.env.get_available_actions()
-            success, message = self.env.move(action)
+            if action is None:
+                success, message = False, "no valid action; stayed in place"
+            else:
+                success, message = self.env.move(action)
             pos_after = self.env.agent_cell_pos()
 
             if action in ("turn_left", "turn_right"):
                 self.turn_count += 1
-            if not success:
+            if action is not None and not success:
                 self.wall_bump_count += 1
-            if step_data["used_fallback"]:
-                self.random_fallback_total += 1
+            # Backward-compat: older checkpoints use the key "used_fallback".
+            _no_action = step_data.get("no_action", step_data.get("used_fallback", False))
+            if _no_action:
+                self.no_action_total += 1
 
             feedback_prefix = _make_feedback(action, success, message, pos_after)
 
@@ -708,7 +718,7 @@ class MazeRunner3D:
                 message=message,
                 raw_output=raw_output,
                 attempts=step_data["attempts"],
-                used_fallback=step_data["used_fallback"],
+                no_action=_no_action,
                 facing_before=facing_before,
                 facing_after=self.env.facing,
                 position_before=pos_before,
@@ -737,7 +747,7 @@ class MazeRunner3D:
     def _choose_action(self) -> Tuple[str, str, int, bool]:
         """
         Have the LLM choose an action. The current step's user message is already appended to self.messages.
-        Returns (action, raw_output, attempts, used_fallback).
+        Returns (action, raw_output, attempts, no_action).
         Transient network errors are retried inside framework's LLMClient.chat();
         a 400 content-filter is recovered here by trimming the oldest message pair.
         Any other error propagates so the game finalizes with an error.
@@ -745,22 +755,32 @@ class MazeRunner3D:
         valid_actions = ACTIONS_V5 if self.action_space == "v5" else ACTIONS
         action_hint = "|".join(valid_actions)
 
-        MAX_FILTER_TRIMS = 20          # bound the 400 content-filter recovery
+        MAX_FILTER_TRIMS = 200         # bound the 400 content-filter / token-limit recovery
         raw = ""
         parse_attempts = 0
         filter_trims = 0
+        # Two-stage strategy for content-space reliability:
+        #   attempts 1..max_retries    → only look at `content` (retry to give the
+        #                                model another chance to output a clean
+        #                                answer instead of eagerly dipping into
+        #                                the thinking trace)
+        #   attempt  max_retries + 1   → last chat: allow reasoning fallback,
+        #                                then random+fake as ultimate last resort
+        # For default max_retries=2: attempt 1 & 2 are content-only, attempt 3
+        # allows reasoning; totals 3 chats per step.
 
         while parse_attempts <= self.max_retries:
             used_reasoning = False
+            is_last_attempt = parse_attempts == self.max_retries
             try:
                 resp = self.client.chat(self._trim_messages_for_api())
                 raw = resp.get("content") or ""
-                # Thinking models on a long multi-image history sometimes emit the
-                # whole answer (including the final `Action:`) in reasoning_content
-                # and leave `content` empty (finish_reason=stop — not a truncation
-                # or timeout). Fall back to the reasoning so the action can still be
-                # parsed instead of degrading to a random forfeit.
-                if not raw.strip():
+                # Thinking models sometimes emit an empty `content` (finish_reason=stop —
+                # not a truncation). On the LAST attempt only, if content is still
+                # empty we fall back to reasoning_content so we can still recover an
+                # action instead of forcing an immediate random. Earlier attempts
+                # retry the model to give it a chance to produce clean content.
+                if is_last_attempt and not raw.strip():
                     _r = resp.get("reasoning") or ""
                     if _r.strip():
                         raw = _r
@@ -779,37 +799,57 @@ class MazeRunner3D:
                     continue
                 raise
 
-            action = parse_action(raw, action_space=self.action_space)
+            action = parse_action(raw, action_space=self.action_space) if raw.strip() else None
 
             if action is None:
                 parse_attempts += 1
-                logger.warning(f"Parse attempt {parse_attempts}/{self.max_retries + 1}: failed to parse action from: {raw}")
+                logger.warning(f"Parse attempt {parse_attempts}/{self.max_retries + 1}: failed to parse action from: {raw[:120]!r}")
                 if parse_attempts <= self.max_retries:
-                    # Don't fold a long unparseable reasoning trace into history.
-                    self.messages.append({"role": "assistant", "content": (raw if (raw.strip() and not used_reasoning) else "...")})
-                    self.messages.append({
-                        "role": "user",
-                        "content": (
-                            f"Invalid action. Please choose exactly one of: "
-                            f"{', '.join(valid_actions)}.\n"
-                            f"Thought: ...\nAction: <{action_hint}>"
-                        ),
-                    })
+                    # Two distinct failure modes need different handling:
+                    #  (a) content is non-empty but unparseable ("real invalid":
+                    #      the model DID answer, just wrong format). Nudge it
+                    #      with the standard nag: keep its (bad) reply in
+                    #      history + inject a user message telling it the
+                    #      correct format.
+                    #  (b) content is empty (thinking-model quirk: it did
+                    #      compute but produced no visible text). The model did
+                    #      not answer at all, so telling it "invalid action"
+                    #      would be misleading and contaminate the context.
+                    #      Retry with the EXACT same context — no messages
+                    #      appended — giving it another try to output content.
+                    if raw.strip():
+                        self.messages.append({"role": "assistant", "content": raw if not used_reasoning else "..."})
+                        self.messages.append({
+                            "role": "user",
+                            "content": (
+                                f"Invalid action. Please choose exactly one of: "
+                                f"{', '.join(valid_actions)}.\n"
+                                f"Thought: ...\nAction: <{action_hint}>"
+                            ),
+                        })
+                    # else: empty content — leave self.messages untouched so the
+                    # retry sees the identical context (no phantom assistant
+                    # turn, no nag).
                 continue
 
-            # Store a compact assistant turn. If the answer came from the
-            # reasoning trace (content was empty), keep only the parsed action so
-            # the long trace doesn't bloat the re-sent history every round.
+            # Compact history: for reasoning fallback, store only the parsed action
+            # (the long trace would bloat every re-sent turn). For real content, keep
+            # it as-is.
             hist = f"Thought: (in reasoning)\nAction: {action}" if used_reasoning else (raw if raw.strip() else "...")
             self.messages.append({"role": "assistant", "content": hist})
             return action, raw, parse_attempts + 1, False
 
-        # Fallback: random valid action
+        # All content+reasoning attempts failed. Last resort: pick a random valid
+        # action and inject a fake assistant reply so the conversation stays
+        # coherent (rather than leaving "..." or stalling in place). Mark
+        # `no_action=True` for diagnostics; the game still advances one step,
+        # consistent with the max_steps step-budget accounting.
         avail = self.env.get_available_actions()
         fallback = self.fallback_rng.choice(avail if avail else valid_actions)
-        logger.warning(f"All parse attempts exhausted (parse={parse_attempts}). Fallback: {fallback}")
-        self.messages.append({"role": "assistant", "content": "..."})
-        return fallback, raw, self.max_retries + 1, True
+        logger.warning(f"All parse attempts exhausted. Random fallback action: {fallback}")
+        fake_reply = f"Thought: (no parseable output; auto-selecting a valid action)\nAction: {fallback}"
+        self.messages.append({"role": "assistant", "content": fake_reply})
+        return fallback, fake_reply, self.max_retries + 1, True
 
     def run(self) -> GameResult:
         """Run the full game evaluation and return a GameResult."""
@@ -852,21 +892,27 @@ class MazeRunner3D:
             self.messages.append(step_msg)
 
             # LLM chooses action
-            action, raw, attempts, used_fallback = self._choose_action()
-            if used_fallback:
-                self.random_fallback_total += 1
+            action, raw, attempts, no_action = self._choose_action()
+            if no_action:
+                self.no_action_total += 1
             if action in ("turn_left", "turn_right"):
                 self.turn_count += 1
 
-            # Execute action
-            success, message = self.env.move(action)
-            pos_after = self.env.agent_cell_pos()
-
-            if not success:
-                self.wall_bump_count += 1
-                logger.info(f"BLOCKED: {action} ({message})")
+            # Execute action. action is None when the model produced no parseable
+            # action after all retries: treat as a no-op (stay in place), which
+            # consumes this step but does NOT count as a wall bump.
+            if action is None:
+                success, message = False, "no valid action; stayed in place"
+                pos_after = self.env.agent_cell_pos()
+                logger.info("NO-OP: no valid action, staying in place")
             else:
-                logger.info(f"OK: {action} → pos={pos_after}, facing={self.env.facing}")
+                success, message = self.env.move(action)
+                pos_after = self.env.agent_cell_pos()
+                if not success:
+                    self.wall_bump_count += 1
+                    logger.info(f"BLOCKED: {action} ({message})")
+                else:
+                    logger.info(f"OK: {action} → pos={pos_after}, facing={self.env.facing}")
 
             feedback_prefix = _make_feedback(action, success, message, pos_after)
 
@@ -877,7 +923,7 @@ class MazeRunner3D:
                 message=message,
                 raw_output=raw,
                 attempts=attempts,
-                used_fallback=used_fallback,
+                no_action=no_action,
                 facing_before=facing_before,
                 facing_after=self.env.facing,
                 position_before=pos_before,
@@ -939,7 +985,7 @@ class MazeRunner3D:
             total_cells=self.env.total_cells(),
             exploration_rate=self.env.exploration_rate(),
             path_efficiency=path_efficiency,
-            random_fallback_count=self.random_fallback_total,
+            no_action_count=self.no_action_total,
             wall_bump_count=self.wall_bump_count,
             turn_count=self.turn_count,
             action_space=self.action_space,
@@ -1017,7 +1063,7 @@ def save_result(result: GameResult, output_dir: str = "results",
                 f"({result.exploration_rate:.1%})\n")
         f.write(f"Wall Bumps:    {result.wall_bump_count}\n")
         f.write(f"Turns:         {result.turn_count}\n")
-        f.write(f"Fallbacks:     {result.random_fallback_count}\n")
+        f.write(f"Fallbacks:     {result.no_action_count}\n")
         f.write(f"{sep}\n\nFull Maze (top-down):\n{result.full_maze_text}\n\n{sep}\n")
         f.write("CONVERSATION TRACE\n")
         f.write(f"{sep}\n\n")
