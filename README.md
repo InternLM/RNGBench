@@ -32,6 +32,12 @@
   <img src="docs/static/images/teaser.png" alt="RNG-Bench overview: Markov vs. Non-Markov, and the two-game test suite" width="900"/>
 </div>
 
+## 📣 News
+
+- **[2026.7.7]** Added **seed-2.1-pro** to the Main Results — tops single-player Matching Pairs (10×10 image, **64.6%**) and ranks #2 on 3D Maze (13×13, GS **32.0%**). Results table and project page updated.
+- **[2026.6.23]** RNG-Bench is on 🤗 Hugging Face: [Paper](https://huggingface.co/papers/2606.19338) · [Dataset (Game Trajectories)](https://huggingface.co/datasets/internlm/RNGBench-Game-Trajectories) · [Collection](https://huggingface.co/collections/ChrisDing1105/rngbench).
+- **[2026.6.18]** RNG-Bench code and paper released! Check out 📃 [arXiv:2606.19338](https://arxiv.org/abs/2606.19338) 🎉
+
 Many real decisions hinge on something **no longer on screen** — a card seen a few
 turns ago, a corridor already walked. We call this the **Non-Markov** regime: the
 current observation is not a sufficient statistic, so a model must reconstruct the
