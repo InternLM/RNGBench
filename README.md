@@ -61,8 +61,50 @@ belief-state tracking rather than rule misunderstanding or action formatting.
   variance and rewarding exploitation of opponent-revealed cards.
 - **Long-context stress test.** The hardest configurations reach ~128K tokens and
   ~350 image inputs per episode, and scale further with size.
-- **Far from saturation.** The best 10×10 image Matching Pairs score is 62.3%
-  (GPT-5.4); the best 13×13 maze success rate is 50% (Gemini-3.1-Pro).
+- **Far from saturation.** The best 10×10 image Matching Pairs score is 64.6%
+  (seed-2.1-pro); the best 13×13 maze success rate is 50% (Gemini-3.1-Pro).
+
+---
+
+## Main Results
+
+No frontier system is close to saturation.
+
+**Single-player.** Two separate tables, one per game. Best per column in **bold**.
+
+*Matching Pairs* (10×10, image, noise theme) — `Score%` = fraction of matched pairs; `Resp./Score` = responses per matched pair; `PF`/`IA` = parse-failure / invalid-action rates.
+
+| Model | PF%↓ | IA%↓ | Resp./Score↓ | Score%↑ |
+|---|---:|---:|---:|---:|
+| <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> seed-2.1-pro | 6.3 | 4.1 | **7.9** | **64.6** |
+| <img src="docs/static/images/logos/openai.png" alt="" width="16" height="16" style="vertical-align:middle"> GPT-5.4 | **0.0** | 4.3 | 8.0 | 62.3 |
+| <img src="docs/static/images/logos/gemini.png" alt="" width="16" height="16" style="vertical-align:middle"> Gemini-3.1-Pro | 0.4 | **2.5** | 10.0 | 50.0 |
+| <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> Seed-2.0-Lite | 1.2 | 4.3 | 11.6 | 43.2 |
+| <img src="docs/static/images/logos/moonshot.png" alt="" width="16" height="16" style="vertical-align:middle"> Kimi-K2.5 | 1.8 | 2.8 | 13.2 | 38.0 |
+| <img src="docs/static/images/logos/qwen.png" alt="" width="16" height="16" style="vertical-align:middle"> Qwen3.5-397B | **0.0** | 3.0 | 19.7 | 25.3 |
+
+*3D Maze* (13×13, no minimap, mean optimal path 60 steps) — `GS%` = aggregate score (success rate, efficiency, exploration); `Eff.` is over successful episodes only.
+
+| Model | SR%↑ | Explore%↑ | Walls↓ | Eff.%↑ | GS%↑ |
+|---|---:|---:|---:|---:|---:|
+| <img src="docs/static/images/logos/gemini.png" alt="" width="16" height="16" style="vertical-align:middle"> Gemini-3.1-Pro | **50.0** | **36.4** | **0.1** | 62.5 | **49.7** |
+| <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> seed-2.1-pro | 30.0 | 35.4 | 12.9 | 29.1 | 32.0 |
+| <img src="docs/static/images/logos/openai.png" alt="" width="16" height="16" style="vertical-align:middle"> GPT-5.4 | 20.0 | 32.3 | 3.2 | **75.7** | 30.5 |
+| <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> Seed-2.0-Lite | 20.0 | 19.4 | 16.6 | 38.9 | 21.7 |
+| <img src="docs/static/images/logos/moonshot.png" alt="" width="16" height="16" style="vertical-align:middle"> Kimi-K2.5 | 10.0 | 17.9 | 7.1 | 61.1 | 16.1 |
+| <img src="docs/static/images/logos/qwen.png" alt="" width="16" height="16" style="vertical-align:middle"> Qwen3.5-397B | 0.0 | 21.0 | 9.9 | 0.0 | 10.5 |
+
+**Duel** — Matching Pairs, image (poker), each model plays 16 games vs. the other four (both player orders, two seeds). The ranking **diverges** from single-player: Gemini-3.1-Pro wins *every* matchup, exploiting cards revealed by the opponent.
+
+| Model | Win%↑ | W | T | L | Score%↑ | ELO↑ |
+|---|---:|--:|--:|--:|---:|---:|
+| <img src="docs/static/images/logos/gemini.png" alt="" width="16" height="16" style="vertical-align:middle"> Gemini-3.1-Pro | **100.0** | 16 | 0 | 0 | **36.5** | **1803** |
+| <img src="docs/static/images/logos/openai.png" alt="" width="16" height="16" style="vertical-align:middle"> GPT-5.4        | 50.0 | 7 | 2 | 7 | 25.3 | 1492 |
+| <img src="docs/static/images/logos/qwen.png" alt="" width="16" height="16" style="vertical-align:middle"> Qwen3.5-397B   | 46.7 | 7 | 1 | 8 | 18.0 | 1476 |
+| <img src="docs/static/images/logos/moonshot.png" alt="" width="16" height="16" style="vertical-align:middle"> Kimi-K2.5      | 37.5 | 5 | 2 | 9 | 18.0 | 1423 |
+| <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> Seed-2.0-Lite  | 15.6 | 2 | 1 | 13 | 12.3 | 1306 |
+
+**Key findings.** Performance drops sharply with scale (Qwen3.5-397B: 90.6% → 0.7% from 4×4 to 12×12). Vision is the bottleneck, not history length — Qwen3.5-397B and Kimi-K2.5 solve Matching Pairs perfectly in text but fall to 38.3% / 43.3% under noise-pattern images. The textual action trace is load-bearing — removing it collapses GPT-5.4 from 62.3% to 15.3% even though every flip is visible in the board image. And there is large headroom: an optimal policy needs only **3.24** responses per matched pair vs. 7.9 for the best model. Full ablations are in the paper.
 
 ---
 
@@ -189,46 +231,6 @@ python run.py --model dummy --preview --seed 0 --maze-size 11
 # vs. the normal run isolates spatial recall from perception / decision-making.
 python run.py --model gpt-5.4 --maze-size 13 --seed 0 --minimap
 ```
-
----
-
-## Main Results
-
-No frontier system is close to saturation.
-
-**Single-player.** Two separate tables, one per game. Best per column in **bold**.
-
-*Matching Pairs* (10×10, image, noise theme) — `Score%` = fraction of matched pairs; `Resp./Score` = responses per matched pair; `PF`/`IA` = parse-failure / invalid-action rates.
-
-| Model | PF%↓ | IA%↓ | Resp./Score↓ | Score%↑ |
-|---|---:|---:|---:|---:|
-| GPT-5.4 | **0.0** | 4.3 | **8.01** | **62.3** |
-| Gemini-3.1-Pro | 0.4 | **2.5** | 10.00 | 50.0 |
-| Seed-2.0-Lite | 1.2 | 4.3 | 11.57 | 43.2 |
-| Kimi-K2.5 | 1.8 | 2.8 | 13.16 | 38.0 |
-| Qwen3.5-397B | **0.0** | 3.0 | 19.74 | 25.3 |
-
-*3D Maze* (13×13, no minimap, mean optimal path 60 steps) — `GS%` = aggregate score (success rate, efficiency, exploration); `Eff.` is over successful episodes only.
-
-| Model | SR%↑ | Explore%↑ | Walls↓ | Eff.%↑ | GS%↑ |
-|---|---:|---:|---:|---:|---:|
-| GPT-5.4 | 20.0 | 32.3 | 3.2 | **75.7** | 30.5 |
-| Gemini-3.1-Pro | **50.0** | **36.4** | **0.1** | 62.5 | **49.7** |
-| Seed-2.0-Lite | 20.0 | 19.4 | 16.6 | 38.9 | 21.7 |
-| Kimi-K2.5 | 10.0 | 17.9 | 7.1 | 61.1 | 16.1 |
-| Qwen3.5-397B | 0.0 | 21.0 | 9.9 | 0.0 | 10.5 |
-
-**Duel** — Matching Pairs, image (poker), each model plays 16 games vs. the other four (both player orders, two seeds). The ranking **diverges** from single-player: Gemini-3.1-Pro wins *every* matchup, exploiting cards revealed by the opponent.
-
-| Model | Win%↑ | W | T | L | Score%↑ | ELO↑ |
-|---|---:|--:|--:|--:|---:|---:|
-| Gemini-3.1-Pro | **100.0** | 16 | 0 | 0 | **36.5** | **1803** |
-| GPT-5.4        | 50.0 | 7 | 2 | 7 | 25.3 | 1492 |
-| Qwen3.5-397B   | 46.7 | 7 | 1 | 8 | 18.0 | 1476 |
-| Kimi-K2.5      | 37.5 | 5 | 2 | 9 | 18.0 | 1423 |
-| Seed-2.0-Lite  | 15.6 | 2 | 1 | 13 | 12.3 | 1306 |
-
-**Key findings.** Performance drops sharply with scale (Qwen3.5-397B: 90.6% → 0.7% from 4×4 to 12×12). Vision is the bottleneck, not history length — Qwen3.5-397B and Kimi-K2.5 solve Matching Pairs perfectly in text but fall to 38.3% / 43.3% under noise-pattern images. The textual action trace is load-bearing — removing it collapses GPT-5.4 from 62.3% to 15.3% even though every flip is visible in the board image. And there is large headroom: an optimal policy needs only **3.24** responses per matched pair vs. 8.01 for the best model. Full ablations are in the paper.
 
 ---
 

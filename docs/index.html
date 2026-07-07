@@ -154,6 +154,7 @@
       <div class="model-chip"><img src="static/images/logos/kimi.png" alt="Kimi"><span>Kimi-K2.5</span></div>
       <div class="model-chip"><img src="static/images/logos/qwen.png" alt="Qwen"><span>Qwen3.5-397B</span></div>
       <div class="model-chip"><img src="static/images/logos/bytedance.png" alt="ByteDance"><span>Seed-2.0-Lite</span></div>
+      <div class="model-chip"><img src="static/images/logos/bytedance.png" alt="ByteDance"><span>seed-2.1-pro</span></div>
     </div>
   </div>
 </section>
@@ -183,28 +184,33 @@
         </thead>
         <tbody>
           <tr>
+            <td class="model-name"><img class="model-logo" src="static/images/logos/bytedance.png" alt="">seed-2.1-pro</td>
+            <td>6.3</td><td>4.1</td><td><span class="best">7.9</span></td><td><span class="best">64.6</span></td>
+            <td class="grp">30.0</td><td>35.4</td><td>12.9</td><td>29.1</td><td>32.0</td>
+          </tr>
+          <tr>
             <td class="model-name"><img class="model-logo" src="static/images/logos/openai.png" alt="">GPT-5.4</td>
-            <td><span class="best">0.0</span></td><td>4.3</td><td><span class="best">8.01</span></td><td><span class="best">62.3</span></td>
+            <td><span class="best">0.0</span></td><td>4.3</td><td>8.0</td><td>62.3</td>
             <td class="grp">20.0</td><td>32.3</td><td>3.2</td><td><span class="best">75.7</span></td><td>30.5</td>
           </tr>
           <tr>
             <td class="model-name"><img class="model-logo" src="static/images/logos/gemini.png" alt="">Gemini-3.1-Pro</td>
-            <td>0.4</td><td><span class="best">2.5</span></td><td>10.00</td><td>50.0</td>
+            <td>0.4</td><td><span class="best">2.5</span></td><td>10.0</td><td>50.0</td>
             <td class="grp"><span class="best">50.0</span></td><td><span class="best">36.4</span></td><td><span class="best">0.1</span></td><td>62.5</td><td><span class="best">49.7</span></td>
           </tr>
           <tr>
             <td class="model-name"><img class="model-logo" src="static/images/logos/bytedance.png" alt="">Seed-2.0-Lite</td>
-            <td>1.2</td><td>4.3</td><td>11.57</td><td>43.2</td>
+            <td>1.2</td><td>4.3</td><td>11.6</td><td>43.2</td>
             <td class="grp">20.0</td><td>19.4</td><td>16.6</td><td>38.9</td><td>21.7</td>
           </tr>
           <tr>
             <td class="model-name"><img class="model-logo" src="static/images/logos/kimi.png" alt="">Kimi-K2.5</td>
-            <td>1.8</td><td>2.8</td><td>13.16</td><td>38.0</td>
+            <td>1.8</td><td>2.8</td><td>13.2</td><td>38.0</td>
             <td class="grp">10.0</td><td>17.9</td><td>7.1</td><td>61.1</td><td>16.1</td>
           </tr>
           <tr>
             <td class="model-name"><img class="model-logo" src="static/images/logos/qwen.png" alt="">Qwen3.5-397B</td>
-            <td><span class="best">0.0</span></td><td>3.0</td><td>19.74</td><td>25.3</td>
+            <td><span class="best">0.0</span></td><td>3.0</td><td>19.7</td><td>25.3</td>
             <td class="grp">0.0</td><td>21.0</td><td>9.9</td><td>0.0</td><td>10.5</td>
           </tr>
         </tbody>
@@ -233,8 +239,9 @@
       <li>
         <strong>Single-player and duel rankings diverge.</strong>
         In 16 head-to-head matches on the same 8×10 boards, Gemini-3.1-Pro wins every matchup
-        (averaging 14.6 matched pairs/game vs. GPT-5.4's 10.1), while single-player ranks GPT-5.4 first —
-        duels reward exploiting opponent-revealed cards, a channel single-player cannot probe.
+        (averaging 14.6 matched pairs/game vs. GPT-5.4's 10.1), while single-player is topped by
+        seed-2.1-pro and GPT-5.4 — duels reward exploiting opponent-revealed cards, a channel
+        single-player cannot probe.
       </li>
       <li>
         <strong>Performance drops sharply as the hidden state grows.</strong>
@@ -253,8 +260,8 @@
       </li>
       <li>
         <strong>Large headroom remains.</strong>
-        An optimal policy needs only 3.24 responses per matched pair versus 8.01 for the strongest model —
-        roughly 60 % fewer moves.
+        An optimal policy needs only 3.24 responses per matched pair versus 7.9 for the strongest model —
+        roughly 59 % fewer moves.
       </li>
     </ul>
 
