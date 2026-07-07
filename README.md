@@ -34,7 +34,7 @@
 
 ## 📣 News
 
-- **[2026.7.7]** Added **seed-2.1-pro** to the Main Results — tops single-player Matching Pairs (10×10 image, **64.6%**) and ranks #2 on 3D Maze (13×13, GS **32.0%**). Results table and project page updated.
+- **[2026.7.7]** Added **Seed-2.1-Pro** to the Main Results — tops single-player Matching Pairs (10×10 image, **64.6%**) and ranks #2 on 3D Maze (13×13, GS **32.0%**). Results table and project page updated.
 - **[2026.6.23]** RNG-Bench is on 🤗 Hugging Face: [Paper](https://huggingface.co/papers/2606.19338) · [Dataset (Game Trajectories)](https://huggingface.co/datasets/internlm/RNGBench-Game-Trajectories) · [Collection](https://huggingface.co/collections/ChrisDing1105/rngbench).
 - **[2026.6.18]** RNG-Bench code and paper released! Check out 📃 [arXiv:2606.19338](https://arxiv.org/abs/2606.19338) 🎉
 
@@ -68,7 +68,7 @@ belief-state tracking rather than rule misunderstanding or action formatting.
 - **Long-context stress test.** The hardest configurations reach ~128K tokens and
   ~350 image inputs per episode, and scale further with size.
 - **Far from saturation.** The best 10×10 image Matching Pairs score is 64.6%
-  (seed-2.1-pro); the best 13×13 maze success rate is 50% (Gemini-3.1-Pro).
+  (Seed-2.1-Pro); the best 13×13 maze success rate is 50% (Gemini-3.1-Pro).
 
 ---
 
@@ -82,7 +82,7 @@ No frontier system is close to saturation.
 
 | Model | PF%↓ | IA%↓ | Resp./Score↓ | Score%↑ |
 |---|---:|---:|---:|---:|
-| <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> seed-2.1-pro | 6.3 | 4.1 | **7.9** | **64.6** |
+| <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> Seed-2.1-Pro | 6.3 | 4.1 | **7.9** | **64.6** |
 | <img src="docs/static/images/logos/openai.png" alt="" width="16" height="16" style="vertical-align:middle"> GPT-5.4 | **0.0** | 4.3 | 8.0 | 62.3 |
 | <img src="docs/static/images/logos/gemini.png" alt="" width="16" height="16" style="vertical-align:middle"> Gemini-3.1-Pro | 0.4 | **2.5** | 10.0 | 50.0 |
 | <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> Seed-2.0-Lite | 1.2 | 4.3 | 11.6 | 43.2 |
@@ -94,7 +94,7 @@ No frontier system is close to saturation.
 | Model | SR%↑ | Explore%↑ | Walls↓ | Eff.%↑ | GS%↑ |
 |---|---:|---:|---:|---:|---:|
 | <img src="docs/static/images/logos/gemini.png" alt="" width="16" height="16" style="vertical-align:middle"> Gemini-3.1-Pro | **50.0** | **36.4** | **0.1** | 62.5 | **49.7** |
-| <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> seed-2.1-pro | 30.0 | 35.4 | 12.9 | 29.1 | 32.0 |
+| <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> Seed-2.1-Pro | 30.0 | 35.4 | 12.9 | 29.1 | 32.0 |
 | <img src="docs/static/images/logos/openai.png" alt="" width="16" height="16" style="vertical-align:middle"> GPT-5.4 | 20.0 | 32.3 | 3.2 | **75.7** | 30.5 |
 | <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> Seed-2.0-Lite | 20.0 | 19.4 | 16.6 | 38.9 | 21.7 |
 | <img src="docs/static/images/logos/moonshot.png" alt="" width="16" height="16" style="vertical-align:middle"> Kimi-K2.5 | 10.0 | 17.9 | 7.1 | 61.1 | 16.1 |
