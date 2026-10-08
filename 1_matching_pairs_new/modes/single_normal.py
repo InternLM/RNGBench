@@ -5,13 +5,11 @@ Supports text / image board rendering. Every model reply (including retries) rec
 """
 
 import argparse
-import json
 import logging
-import string
 import sys
 import traceback
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 _THIS_DIR = Path(__file__).resolve().parent
 _ROOT = _THIS_DIR.parent
@@ -26,6 +24,7 @@ from common.image_store import ImageStore                                    # n
 from common.board_renderer import BoardRenderer                              # noqa: E402
 from common.materialize import materialize                                   # noqa: E402
 from common.turn_logger import TurnLogger                                    # noqa: E402
+from common.single_resume import PartialReplay, ResumeError                   # noqa: E402
 from common.parsing import parse_coord                                       # noqa: E402
 from common.output_layout import resolve_run_dir, render_leaf                # noqa: E402
 from common.run_dir import prepare_run_dir, ON_EXISTS_CHOICES                # noqa: E402
@@ -90,126 +89,6 @@ def _retry_msg(reason: str) -> Dict[str, Any]:
     return {"role": "user", "content": [_text(reason)]}
 
 
-# ── Resume from partial game.json ──────────────────────────────────────
-
-def _str_to_coord(s: str) -> tuple:
-    """Inverse of env.board.coord_to_str: 'aA' → (0, 0)."""
-    return (string.ascii_lowercase.index(s[0]),
-            string.ascii_uppercase.index(s[1]))
-
-
-def _try_resume_from_partial(
-    game_json_path: Path,
-    env: MatchingEnv,
-    br: BoardRenderer,
-    image_store: Optional[ImageStore],
-) -> Optional[Tuple[List[Dict[str, Any]], int, List[Dict[str, Any]]]]:
-    """If game.json exists with un-finalized turns, replay env to the last
-    fully-completed round and return (turns_to_keep, round_idx, messages).
-
-    Returns None if no resumable state (file missing / already finalized /
-    corrupt / no completed round).
-
-    Discards any orphan turns from a partially-played round (since env is
-    deterministic, those will be re-rolled cleanly). The caller must then
-    construct a TurnLogger with `resume_turns=turns_to_keep` so log_call
-    appends after them with monotonic turn_ids.
-    """
-    if not game_json_path.exists():
-        return None
-    try:
-        data = json.loads(game_json_path.read_text())
-    except Exception:
-        return None
-    if data.get("result") is not None:
-        return None
-    turns = data.get("turns") or []
-    if not turns:
-        return None
-
-    # Per-round: which flips applied? Use phase_after to disambiguate
-    # (call_type "retry" doesn't tell us which phase the apply was for).
-    round_state: Dict[int, Dict[str, Any]] = {}
-    for t in turns:
-        env_result = t.get("env_result") or {}
-        if not env_result.get("applied"):
-            continue
-        r = t.get("round")
-        st = round_state.setdefault(r, {})
-        phase_after = env_result.get("phase_after")
-        coord_str = (t.get("parse") or {}).get("coord")
-        face = env_result.get("revealed_face")
-        if phase_after == "flip_second":
-            st["coord1"], st["face1"] = coord_str, face
-        elif phase_after == "flip_first":
-            st["coord2"], st["face2"] = coord_str, face
-
-    completed = sorted(r for r, st in round_state.items()
-                       if "coord1" in st and "coord2" in st)
-    if not completed:
-        return None
-    last_round = completed[-1]
-
-    turns_to_keep = [t for t in turns if (t.get("round") or 0) <= last_round]
-
-    # Replay applied turns through env, round-by-round so we can call
-    # abort_round() for forfeited rounds (flip_first applied but flip_second
-    # never applied — env stayed in flip_second phase mid-game). Mirrors the
-    # `env.abort_round()` call in run_one_game when flip_second exhausts retries.
-    turns_by_round: Dict[int, List[Dict[str, Any]]] = {}
-    for t in turns_to_keep:
-        turns_by_round.setdefault(t.get("round") or 0, []).append(t)
-    for r in sorted(turns_by_round):
-        f1_applied = f2_applied = False
-        for t in turns_by_round[r]:
-            env_result = t.get("env_result") or {}
-            if not env_result.get("applied"):
-                continue
-            coord_str = (t.get("parse") or {}).get("coord")
-            if not coord_str or len(coord_str) < 2:
-                return None
-            env.step(_str_to_coord(coord_str))
-            pa = env_result.get("phase_after")
-            if pa == "flip_second":
-                f1_applied = True
-            elif pa == "flip_first":
-                f2_applied = True
-        if f1_applied and not f2_applied:
-            env.abort_round()
-
-    # Reconstruct messages via snapshot diffing (each turn's messages_sent is a
-    # superset of the previous turn's, plus any user msgs eval appended in
-    # between).
-    messages: List[Dict[str, Any]] = []
-    for t in turns_to_keep:
-        snapshot = t.get("messages_sent") or []
-        if len(snapshot) > len(messages):
-            messages.extend(snapshot[len(messages):])
-        content = (t.get("response") or {}).get("content", "") or ""
-        messages.append({"role": "assistant", "content": content})
-
-    # Synthesize trailing outcome msg for last_round (eval appends it AFTER
-    # the last applied turn was logged, so no snapshot captures it).
-    obs = env.get_observation()
-    st = round_state[last_round]
-    coord1 = _str_to_coord(st["coord1"])
-    coord2 = _str_to_coord(st["coord2"])
-    matched = (st["face1"] == st["face2"])
-    verdict = "Match!" if matched else "No match — cards flipped back."
-    content_parts: List[Dict[str, Any]] = [_text("Both cards revealed:")]
-    both_ref = br.store_both_flips(
-        name=f"round_{last_round:03d}_both",
-        coord1=coord1, coord2=coord2,
-    )
-    content_parts.append(br.ref_to_part(both_ref))
-    content_parts.append(_text(
-        f"{verdict} Score: {obs.score}. Remaining: {obs.remaining_pairs}."
-    ))
-    messages.append({"role": "user", "content": content_parts})
-
-    return turns_to_keep, last_round, messages
-
-
 # ── Main ────────────────────────────────────────────────────────────────
 
 def run_one_game(
@@ -236,17 +115,12 @@ def run_one_game(
     if render == "image":
         image_store = ImageStore(root=out_dir / "images", base_dir=out_dir)
 
-    client = make_client(model, label=label)
     env = MatchingEnv(
         rows=rows, cols=cols, num_cards=num_cards, seed=seed,
         theme=theme if render == "image" else None,
         assets_dir=assets_dir, cell_size=(cell_size, cell_size),
     )
     obs = env.reset()
-    br = BoardRenderer(env, render=render, image_store=image_store)
-
-    # GT
-    gt_part = br.ground_truth_part(name="ground_truth")
     gt_text = env.render_ground_truth(mode="text")
     optimal_greedy = compute_optimal_resp_times(env.board.cards)
 
@@ -264,26 +138,29 @@ def run_one_game(
         "max_retries": max_retries,
         "cot_enabled": cot_enabled,
         "oracle_memory": oracle_memory,
-        "ground_truth": gt_part,
         "ground_truth_text": gt_text,
         "optimal_resp_times_greedy": optimal_greedy,
     }
 
-    # Resume from a partial game.json if present (env replay + messages rebuild).
-    # Oracle-memory runs start fresh (the `seen` set can't be reconstructed cheaply).
-    resume = None if oracle_memory else _try_resume_from_partial(out_dir / "game.json", env, br, image_store)
+    # Validate before writing ground truth or any observation from the new env.
+    resume = PartialReplay.load(out_dir / "game.json", config)
     if resume is not None:
-        resume_turns, round_idx, messages = resume
-        obs = env.get_observation()
-        tlog = TurnLogger(out_dir / "game.json", config=config, resume_turns=resume_turns)
-        logger.info(f"[resume] {out_dir.name}: replayed {len(resume_turns)} turns, "
-                    f"continuing from round {round_idx + 1}")
+        image_store = resume.image_store(image_store)
+    br = BoardRenderer(env, render=render, image_store=image_store)
+    config["ground_truth"] = br.ground_truth_part(name="ground_truth")
+    if resume is not None:
+        tlog = resume.logger(config)
+        client = resume.client(lambda: make_client(model, label=label), image_store)
+        if not resume.replaying:
+            resume.activate()
+        logger.info(f"[resume] {out_dir.name}: validating {len(resume.turns)} saved replies")
     else:
+        client = make_client(model, label=label)
         tlog = TurnLogger(out_dir / "game.json", config=config)
-        messages = [
-            {"role": "system", "content": build_single_system(cot_enabled=cot_enabled)},
-        ]
-        round_idx = 0
+    messages = [
+        {"role": "system", "content": build_single_system(cot_enabled=cot_enabled)},
+    ]
+    round_idx = 0
 
     error: Optional[str] = None
     seen: set = set()  # all coords revealed so far (oracle-memory mode only)
@@ -349,7 +226,11 @@ def run_one_game(
             ))
             messages.append({"role": "user", "content": content_parts})
 
+    except ResumeError:
+        raise
     except Exception as e:
+        if resume is not None and not resume.activated:
+            raise ResumeError("Could not validate the saved run; original files preserved") from e
         error = f"{type(e).__name__}: {e}"
         logger.error(f"Game aborted: {error}\n{traceback.format_exc()}")
 
@@ -485,7 +366,7 @@ def main() -> None:
                         help="If run dir already exists: overwrite (default, rm -rf first); "
                              "skip (exit if finalized game.json exists, else rm -rf + redo); "
                              "resume (skip if finalized; else replay env from partial "
-                             "game.json and continue from last completed round).")
+                             "game.json and continue from the exact recorded reply boundary).")
     args = parser.parse_args()
 
     logging.basicConfig(
