@@ -67,6 +67,12 @@ per-round renders under `images/`. The `game.json` carries `result`
 | `--max-retries N` | Retries per turn on a parse failure. |
 | `--on-exists {overwrite,resume,skip}` | Behaviour when the output already exists. |
 
+For `single_normal`, `--on-exists resume` validates the saved configuration and
+replays every recorded reply before making a new model request. Replies from
+incomplete rounds and failed action attempts still count toward the original
+budget. An incompatible or corrupt checkpoint is rejected without replacing
+the saved log or images; finalized runs are skipped.
+
 ## Example sweeps (`scripts/`)
 
 All take `MODELS`/`GRIDS`/`SEEDS`/`PARALLEL`/`OUT_BASE` env overrides; `PARALLEL`
