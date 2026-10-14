@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "games": 69,
+  "single_games": 45,
+  "duel_games": 24,
+  "raw_ledger_trajectory_mismatches": 0,
+  "request_options_spec_mismatches": 0,
+  "source_review_sha256": "a92fc7273c162730d31f0cba252443f75ee183b2c20dec692bc9e49f1c5a0e16",
+  "public_file_sha256": {
+    "README.md": "0a626b671d2dcb90cecafdece92d51b50b3e7ad709c719b58a3ac3ad05928b7f",
+    "duel.csv": "7f1e74bf9c34fc5dfe98c70633dcf95375e9edcadde7adc00ad21da4f0b31b32",
+    "results.json": "b299064d54adbb7ed3ec80b2d6b602e6f1fa872c6fb8681edc77eb0cdfa4e388",
+    "single.csv": "cd373929a69658b22baba087d93e0b0c4f5c0ca6efdd716ac37361ed5caabbde"
+  }
+}

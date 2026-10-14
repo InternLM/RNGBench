@@ -1,0 +1,2944 @@
+{
+  "generated_date": "2026-10-14",
+  "single_games": 45,
+  "duel_games": 24,
+  "native_replay_passed": true,
+  "model_configs": {
+    "kimi": {
+      "label": "Kimi-K3",
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "image_long_edge": 448,
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "thinking_level": "max"
+    },
+    "deepseek": {
+      "label": "DeepSeek-V4.1-Flash",
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "image_long_edge": 512,
+      "history_policy": "native_final_content_only",
+      "thinking_level": "provider_default_not_pinned"
+    },
+    "glm": {
+      "label": "GLM-5.3-Flash",
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "image_long_edge": 512,
+      "history_policy": "native_final_content_only",
+      "thinking_level": "provider_default_not_pinned"
+    }
+  },
+  "metrics": [
+    {
+      "kind": "duel",
+      "model": "deepseek",
+      "games": 16,
+      "responses": 1523,
+      "nonempty_reasoning": 1521,
+      "finish_reasons": {
+        "stop": 1523
+      },
+      "empty_final": 1,
+      "parse_failures": 1,
+      "invalid_actions": 6,
+      "mean_score_pct": 13.125,
+      "responses_per_score": 18.13095238095238,
+      "parse_failure_pct": 0.06565988181221274,
+      "invalid_action_pct": 0.3939592908732764
+    },
+    {
+      "kind": "duel",
+      "model": "glm",
+      "games": 16,
+      "responses": 1624,
+      "nonempty_reasoning": 1368,
+      "finish_reasons": {
+        "stop": 1575,
+        "length": 49
+      },
+      "empty_final": 49,
+      "parse_failures": 74,
+      "invalid_actions": 9,
+      "mean_score_pct": 17.96875,
+      "responses_per_score": 14.121739130434783,
+      "parse_failure_pct": 4.556650246305419,
+      "invalid_action_pct": 0.5541871921182266
+    },
+    {
+      "kind": "duel",
+      "model": "kimi",
+      "games": 16,
+      "responses": 1653,
+      "nonempty_reasoning": 1653,
+      "finish_reasons": {
+        "stop": 1653
+      },
+      "empty_final": 0,
+      "parse_failures": 6,
+      "invalid_actions": 0,
+      "mean_score_pct": 24.84375,
+      "responses_per_score": 10.39622641509434,
+      "parse_failure_pct": 0.3629764065335753,
+      "invalid_action_pct": 0.0
+    },
+    {
+      "kind": "single",
+      "model": "deepseek",
+      "games": 15,
+      "responses": 3750,
+      "nonempty_reasoning": 3743,
+      "finish_reasons": {
+        "stop": 3750
+      },
+      "empty_final": 2,
+      "parse_failures": 5,
+      "invalid_actions": 0,
+      "mean_score_pct": 53.333333333333336,
+      "responses_per_score": 9.375,
+      "parse_failure_pct": 0.13333333333333333,
+      "invalid_action_pct": 0.0,
+      "try_means_pct": [
+        48.4,
+        54.4,
+        57.2
+      ]
+    },
+    {
+      "kind": "single",
+      "model": "glm",
+      "games": 15,
+      "responses": 3750,
+      "nonempty_reasoning": 1810,
+      "finish_reasons": {
+        "stop": 3705,
+        "length": 45
+      },
+      "empty_final": 45,
+      "parse_failures": 54,
+      "invalid_actions": 19,
+      "mean_score_pct": 52.53333333333333,
+      "responses_per_score": 9.51776649746193,
+      "parse_failure_pct": 1.44,
+      "invalid_action_pct": 0.5066666666666667,
+      "try_means_pct": [
+        49.2,
+        51.199999999999996,
+        57.2
+      ]
+    },
+    {
+      "kind": "single",
+      "model": "kimi",
+      "games": 15,
+      "responses": 3750,
+      "nonempty_reasoning": 3750,
+      "finish_reasons": {
+        "stop": 3750
+      },
+      "empty_final": 0,
+      "parse_failures": 0,
+      "invalid_actions": 3,
+      "mean_score_pct": 76.93333333333334,
+      "responses_per_score": 6.499133448873484,
+      "parse_failure_pct": 0.0,
+      "invalid_action_pct": 0.08,
+      "try_means_pct": [
+        82.0,
+        80.4,
+        68.4
+      ]
+    }
+  ],
+  "player_rows": [
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 20,
+      "total_pairs": 50,
+      "score_pct": 40.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "03e6e800806951e0e8e8eaeac7827a096f5cdc1129c16aa6d64f66b791151d81",
+      "audit_sha256": "cd61d778f87ce3723013003e9b184707547896694a1a3f7f82b489c216575fa8",
+      "id": "single_deepseek_t0_s0"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 19,
+      "total_pairs": 50,
+      "score_pct": 38.0,
+      "responses": 250,
+      "nonempty_reasoning": 249,
+      "empty_final": 1,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 1,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "ce8287d6ba6a32ac29064ed158aa45cb809d9016290974e6b800ceae2298f57c",
+      "audit_sha256": "9ca5820cc6411e55edc14408eef71be0882db731906858a6e01a3456d30f1a50",
+      "id": "single_deepseek_t0_s1"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 2,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 31,
+      "total_pairs": 50,
+      "score_pct": 62.0,
+      "responses": 250,
+      "nonempty_reasoning": 248,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "a34c68404ffea7e49f1dc81b7a9374cac0e9a25484672e53d6511115869989c2",
+      "audit_sha256": "b733680caaa647c21570cb91d605ff2180b5cd730bea97d0c705bd45656c3251",
+      "id": "single_deepseek_t0_s2"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 3,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 22,
+      "total_pairs": 50,
+      "score_pct": 44.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 1,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "d3b97c64b99e4392b36ab81489a66858bcf7824416c2b697fe39070f06b5c5c8",
+      "audit_sha256": "03981acc5b00e2c57cd1c53ce80395f97b276c99c151d30d551462b9af17cddb",
+      "id": "single_deepseek_t0_s3"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 4,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 29,
+      "total_pairs": 50,
+      "score_pct": 57.99999999999999,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 1,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "3babb9b2aa4e637f3f4cb851f97689f509652ecfaf65ad80e725a174ca65ec0e",
+      "audit_sha256": "9cc73407e68327d3562e33e0f6e1101374b56d911deb2bef616bd8dbe461ca18",
+      "id": "single_deepseek_t0_s4"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 0,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 33,
+      "total_pairs": 50,
+      "score_pct": 66.0,
+      "responses": 250,
+      "nonempty_reasoning": 248,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "55f2760ba641ce97bfe59e894888128983e219bb6c42affedfa4df7ae2d91f6e",
+      "audit_sha256": "27d229b4949bd0700d87319d2f6c3b3d1049ed44132e61cee95520f1162bed8f",
+      "id": "single_deepseek_t1_s0"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 1,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 15,
+      "total_pairs": 50,
+      "score_pct": 30.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 1,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "e950683cdc94d9bca491362accd3eaffbe078f40b7a5b59f1a581ccccf1feaef",
+      "audit_sha256": "e8ad9e6026d6a7d658fdc405970270ea28b69ce82a4a55fe9e4b64a1e9eec2df",
+      "id": "single_deepseek_t1_s1"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 31,
+      "total_pairs": 50,
+      "score_pct": 62.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "b2ce00f4ed9871bb4c23cb6741db825502db79a68732355e856a2646fb68cd45",
+      "audit_sha256": "eef589b74f6a107f4139c0a805f84cca068c25d5d6061fb319ef9b6b06e99fe9",
+      "id": "single_deepseek_t1_s2"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 26,
+      "total_pairs": 50,
+      "score_pct": 52.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 1,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 1,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "c6944b4b1c3637498365590f5ee19fc41522018c1cf1428fdf72004c2a365f70",
+      "audit_sha256": "d2ba796441edf97c01cb4910a47cddc3aa843bed0359ce9cba51703cc5fc44b7",
+      "id": "single_deepseek_t1_s3"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 4,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 31,
+      "total_pairs": 50,
+      "score_pct": 62.0,
+      "responses": 250,
+      "nonempty_reasoning": 249,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "4ea3c4ec483497a1f8996afd0885508807ae3d05efb091e9ff6bfcec23695514",
+      "audit_sha256": "63ac4f743a9ddd2125f46f64ed9ccaf32e97bdda34e34cf8cc6be74476ef53d0",
+      "id": "single_deepseek_t1_s4"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 0,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 37,
+      "total_pairs": 50,
+      "score_pct": 74.0,
+      "responses": 250,
+      "nonempty_reasoning": 249,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "980d13968bf424013dee971d9491847a3817fe37ae123aed48d105b8d37e55fc",
+      "audit_sha256": "a1144b7f5ef5f49d216c3562188069deefc3ba79c08aff467d0046f7daa1cc56",
+      "id": "single_deepseek_t2_s0"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 1,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 28,
+      "total_pairs": 50,
+      "score_pct": 56.00000000000001,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "fcae57a1a90d02ea33551afb82c4ab90d7f549fda82d005ca55e90370e659377",
+      "audit_sha256": "312540c82702e1651b9cc2d957a860f40d955b38ab6bb3f6e42e25c12b57012f",
+      "id": "single_deepseek_t2_s1"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 2,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 30,
+      "total_pairs": 50,
+      "score_pct": 60.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "e7ba57eb4371546cc4a618eaa17924a3f8227ca368e2885c009408a72236ee65",
+      "audit_sha256": "b6a3e57294cee025d5c02468b58263373496739306ecfa80125407e3dffd72ce",
+      "id": "single_deepseek_t2_s2"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 3,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 24,
+      "total_pairs": 50,
+      "score_pct": 48.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "9ba8c56de3173e75fd061dfde7794b2c1ef12634d55955b7f10009651975dd11",
+      "audit_sha256": "fa7f0a0736439ebbf8bbe5324c32afde216f1a83ee2ff0571b331e1b6e8efd7d",
+      "id": "single_deepseek_t2_s3"
+    },
+    {
+      "model": "deepseek",
+      "kind": "single",
+      "seed": 4,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 24,
+      "total_pairs": 50,
+      "score_pct": 48.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "f53fca20e1d198d9d75ba3cf187eb60f01d6da21376fdb1d50040ad7da21f12f",
+      "audit_sha256": "6d6e96ee9f577b6e9ce2be580fcee40224802153aa5c7b1d709e108714bad812",
+      "id": "single_deepseek_t2_s4"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 17,
+      "total_pairs": 50,
+      "score_pct": 34.0,
+      "responses": 250,
+      "nonempty_reasoning": 104,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 2,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "71187b3b4eeccc28bd6abe7723cadd22e24c2ebb1a994dc0a9ab262e12c042b6",
+      "audit_sha256": "cbfb2ed53c3ea416973ccf3d64abdb693d7bd4d155f503a8d923e8d0d5555818",
+      "id": "single_glm_t0_s0"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 19,
+      "total_pairs": 50,
+      "score_pct": 38.0,
+      "responses": 250,
+      "nonempty_reasoning": 118,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "60b5182f0210891b27b1716d847fbcd7487f906c71fc3e419a263c6483f4a822",
+      "audit_sha256": "1d745f6d2ff42ea6faa02a135a1f12609dff52127d3d1455d917f5bc2497bcf1",
+      "id": "single_glm_t0_s1"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 2,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 38,
+      "total_pairs": 50,
+      "score_pct": 76.0,
+      "responses": 250,
+      "nonempty_reasoning": 114,
+      "empty_final": 7,
+      "finish_reasons": {
+        "stop": 243,
+        "length": 7
+      },
+      "parse_failures": 7,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "ecd828a3cdb00e371ef75ebe4704c25cc22ba5c56ed99d9bd973af467d5487d2",
+      "audit_sha256": "fb8088b5c602a415beeb62d53616d0ebd0339a9588d392317c576aa4f8891c84",
+      "id": "single_glm_t0_s2"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 3,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 28,
+      "total_pairs": 50,
+      "score_pct": 56.00000000000001,
+      "responses": 250,
+      "nonempty_reasoning": 122,
+      "empty_final": 6,
+      "finish_reasons": {
+        "stop": 244,
+        "length": 6
+      },
+      "parse_failures": 7,
+      "invalid_actions": 1,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "755ab3bb964d2de94bf6adf00e680461f3db80db028e2cf6110d2d0dd9e82859",
+      "audit_sha256": "2eb686336a6d3792e49c41f3682a3c60caaba178d5016f90a024188c0f424fe1",
+      "id": "single_glm_t0_s3"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 4,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 21,
+      "total_pairs": 50,
+      "score_pct": 42.0,
+      "responses": 250,
+      "nonempty_reasoning": 91,
+      "empty_final": 1,
+      "finish_reasons": {
+        "stop": 249,
+        "length": 1
+      },
+      "parse_failures": 1,
+      "invalid_actions": 3,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "c368b60851eb9646fdb57322d17db3b50e1c02c93392258f9ffad266ee748e85",
+      "audit_sha256": "ae291ba8dd6a81f5208949ca6820fb2f2ec92a06fbd37eece36000261b1c8271",
+      "id": "single_glm_t0_s4"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 0,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 21,
+      "total_pairs": 50,
+      "score_pct": 42.0,
+      "responses": 250,
+      "nonempty_reasoning": 108,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "dbf2e4be230e0d6f03be67c50bd0f1f19f4b1878af9726f3405b92acfa65bcb2",
+      "audit_sha256": "ac4201b6f0b137c91e76a46999847f848e1685c499abb626b4026c6d8cd53c25",
+      "id": "single_glm_t1_s0"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 1,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 26,
+      "total_pairs": 50,
+      "score_pct": 52.0,
+      "responses": 250,
+      "nonempty_reasoning": 137,
+      "empty_final": 5,
+      "finish_reasons": {
+        "stop": 245,
+        "length": 5
+      },
+      "parse_failures": 5,
+      "invalid_actions": 1,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "5993d97a8dedac495d100e0d1492282af92303ac0869e2691695f9c9427ca0bc",
+      "audit_sha256": "8aa4b6e0eade999217ed35799ac5d55f70edee4a967e6a29fd3a15a55a5c3ffe",
+      "id": "single_glm_t1_s1"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 33,
+      "total_pairs": 50,
+      "score_pct": 66.0,
+      "responses": 250,
+      "nonempty_reasoning": 124,
+      "empty_final": 1,
+      "finish_reasons": {
+        "stop": 249,
+        "length": 1
+      },
+      "parse_failures": 1,
+      "invalid_actions": 5,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "4dad37f81a5acddfb7eeabe48a78bad987ccab241a2fe880735e119f50b3aa0f",
+      "audit_sha256": "c23dfb6726d39856800d49dfe312783cac9e701d6ad2786c1d247c95165f192d",
+      "id": "single_glm_t1_s2"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 19,
+      "total_pairs": 50,
+      "score_pct": 38.0,
+      "responses": 250,
+      "nonempty_reasoning": 110,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 7,
+      "invalid_actions": 2,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "8dd611a4bbd7fe0441022215cc895c13f9606effada9f4c110b461b033632c76",
+      "audit_sha256": "28f0fe3be03ef3bd4b1b457ffc411e9ad1bb5b57038fbcfa3f542fe3f2668181",
+      "id": "single_glm_t1_s3"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 4,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 29,
+      "total_pairs": 50,
+      "score_pct": 57.99999999999999,
+      "responses": 250,
+      "nonempty_reasoning": 146,
+      "empty_final": 3,
+      "finish_reasons": {
+        "stop": 247,
+        "length": 3
+      },
+      "parse_failures": 3,
+      "invalid_actions": 1,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "d8d55050ca7ce84e6675faabf35100c988839860654fd3a727dd761cbd1bcd03",
+      "audit_sha256": "e81cc071278255ed8b7224da84931c1dd845956c28ea2157974599e27e1f1b52",
+      "id": "single_glm_t1_s4"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 0,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 27,
+      "total_pairs": 50,
+      "score_pct": 54.0,
+      "responses": 250,
+      "nonempty_reasoning": 101,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 3,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "756123da777a7c0cb5c3bf8d098bbe96af9de574295215118e1a106089a7132f",
+      "audit_sha256": "5f4679e5e59fc25cfda89f51ec82fd0f651dfca65e4a93d5332949fc7b753703",
+      "id": "single_glm_t2_s0"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 1,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 44,
+      "total_pairs": 50,
+      "score_pct": 88.0,
+      "responses": 250,
+      "nonempty_reasoning": 121,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "79c5cb000ecde20fda3686e5de8e2e5ea5710dbe1b7145c56b360d501b49f407",
+      "audit_sha256": "74762e4fbb147b05c44fb703561cc7a9bd9dda1759e1cbc853687169c09c6e76",
+      "id": "single_glm_t2_s1"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 2,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 23,
+      "total_pairs": 50,
+      "score_pct": 46.0,
+      "responses": 250,
+      "nonempty_reasoning": 107,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "02246d66d17c9044f1b9ec05bae3c760b86a5c75b0d4bb6e6017bd603983a843",
+      "audit_sha256": "1c2af505563069e68824125a62a437b10de157e9925ab2e25396a9569eec94e3",
+      "id": "single_glm_t2_s2"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 3,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 22,
+      "total_pairs": 50,
+      "score_pct": 44.0,
+      "responses": 250,
+      "nonempty_reasoning": 148,
+      "empty_final": 6,
+      "finish_reasons": {
+        "stop": 244,
+        "length": 6
+      },
+      "parse_failures": 6,
+      "invalid_actions": 1,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "d2629339e5eead641f1f96b73137c6080d312ec4c07e36f5960bc5e815edf7b0",
+      "audit_sha256": "9833428a265b7edd8f7833166069e379c64ecbd97469fd81aef95ef9f83ba1d4",
+      "id": "single_glm_t2_s3"
+    },
+    {
+      "model": "glm",
+      "kind": "single",
+      "seed": 4,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 27,
+      "total_pairs": 50,
+      "score_pct": 54.0,
+      "responses": 250,
+      "nonempty_reasoning": 159,
+      "empty_final": 16,
+      "finish_reasons": {
+        "stop": 234,
+        "length": 16
+      },
+      "parse_failures": 17,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "6bcd37642aebebc0248cc19c902e2b8de8062773bd04e342aed00245fc0aeee9",
+      "audit_sha256": "1bd292435cae4ad2ed183f13955b3b5052974cebf9b859c6ea65de0f875c9622",
+      "id": "single_glm_t2_s4"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 40,
+      "total_pairs": 50,
+      "score_pct": 80.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "71ae6bc2ada96127a13ccb25b3ef547bad1e8d300fc9d429478609eda66a91b0",
+      "audit_sha256": "eb1237adc2de2ccab1c98987d7daa79998ee2636fd1da55ded41be666b87c0ab",
+      "id": "single_kimi_t0_s0"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 35,
+      "total_pairs": 50,
+      "score_pct": 70.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "49ab783a69037d5e5650a3d971a0d96c92437ca09e96927579e1aa0493e82809",
+      "audit_sha256": "f86f4cb71d14b2b956b51dc326bbf2958795ad62d7bd079fe3b41500977a2736",
+      "id": "single_kimi_t0_s1"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 2,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 44,
+      "total_pairs": 50,
+      "score_pct": 88.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "83f1c5f422097c7e6efbb471046dc73507e84e9764ba161a35a5eab9c7f847a5",
+      "audit_sha256": "c27845ae19ef7c72a25cbe280657f263cfe286af6a380223b28e4227276561b6",
+      "id": "single_kimi_t0_s2"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 3,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 40,
+      "total_pairs": 50,
+      "score_pct": 80.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "ba00f324bf582a3ecf238612a62165838f496a0a328c43ee8252c39aff30b4fd",
+      "audit_sha256": "7b4f7bf67ca2ebc940d63f3fd33cf22afe3297577e545586994f312ee55f2ab3",
+      "id": "single_kimi_t0_s3"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 4,
+      "try_index": 0,
+      "first_player": null,
+      "score_pairs": 46,
+      "total_pairs": 50,
+      "score_pct": 92.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "1d37b66f932e77f71d507985aa7a8a4bfe7b14fceb2838300a55fe4460470294",
+      "audit_sha256": "7a1b6230de8ff29e4ab1f999a579f9b8e6770fe5ae78b41c156668c08bb28be7",
+      "id": "single_kimi_t0_s4"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 0,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 46,
+      "total_pairs": 50,
+      "score_pct": 92.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "f2226c1741ad23f51769af8990a4bc8b546cb4feaa34fa3e950a18bd147e8658",
+      "audit_sha256": "73c3ee5526e139ba22ec28fec9a1fd5e6034484bf7468a730243c906efca5d15",
+      "id": "single_kimi_t1_s0"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 1,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 41,
+      "total_pairs": 50,
+      "score_pct": 82.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "6e8b66e194c0164c59bf313403a397ad5c3f14fd622061a5bbe4b6922b259536",
+      "audit_sha256": "350c30873071bc2ac0f8a020bbc22f9cc2bcd79ac335e65a538c92dec417f565",
+      "id": "single_kimi_t1_s1"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 37,
+      "total_pairs": 50,
+      "score_pct": 74.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "ab1c22ef71d27cd772106302680c947b77ddd1f1e437269f7ae5dfe4c972f878",
+      "audit_sha256": "b73ef9611b60e242f61a97e6c80a6e4094036a4abcd28661bd152c10f8b43da0",
+      "id": "single_kimi_t1_s2"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 35,
+      "total_pairs": 50,
+      "score_pct": 70.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "be232e879a943bb6d1bd526bb05190af6c21b73891b962e972d806970653e5a9",
+      "audit_sha256": "df5c19b67680dc6a9d358337c7dd62ebdcf0907e1e063656bab53e4ea58e7351",
+      "id": "single_kimi_t1_s3"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 4,
+      "try_index": 1,
+      "first_player": null,
+      "score_pairs": 42,
+      "total_pairs": 50,
+      "score_pct": 84.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "d7d73b140bebffc7408760054218cc3a90ef52043a6b04b29044f0ad1e87a701",
+      "audit_sha256": "60793156e0fdc97b364d1fb6884a78fd7785b5e78fba6d9831fee42fdb4b1b43",
+      "id": "single_kimi_t1_s4"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 0,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 24,
+      "total_pairs": 50,
+      "score_pct": 48.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "b06ead060e1260798bd227e9fe7e74a0328f0396635ca798d7b5491fa4e69a2f",
+      "audit_sha256": "bdf089d2781eebff82f70c033cf537cb087855fbc20b7f4a2013501344771f85",
+      "id": "single_kimi_t2_s0"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 1,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 28,
+      "total_pairs": 50,
+      "score_pct": 56.00000000000001,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "d31780417423138b6aac4b86b15c1b0ff23c30bfe347b23a5074a78df17449f4",
+      "audit_sha256": "ad0a57e8d884680def4f271a4487721db088bc5b324d0b0faa9b2edfb379c50a",
+      "id": "single_kimi_t2_s1"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 2,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 41,
+      "total_pairs": 50,
+      "score_pct": 82.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 3,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "bc274ccdacc99de8fa7a9ea0f4e1ff0b185c5992feb0e532307a227e4dcde691",
+      "audit_sha256": "39f61608fe1d78dee83a3d140336a526cedb7f624230befd21c1d037242675d1",
+      "id": "single_kimi_t2_s2"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 3,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 33,
+      "total_pairs": 50,
+      "score_pct": 66.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "466f886e57da42c0f3b7c04597ae8bd31095aa0a9b18e8069f2fa4948efa95aa",
+      "audit_sha256": "266e5e1035c5da5ae1857f83ce7f31d104b4225aa511cfe45f5b2c3b99bc8446",
+      "id": "single_kimi_t2_s3"
+    },
+    {
+      "model": "kimi",
+      "kind": "single",
+      "seed": 4,
+      "try_index": 2,
+      "first_player": null,
+      "score_pairs": 45,
+      "total_pairs": 50,
+      "score_pct": 90.0,
+      "responses": 250,
+      "nonempty_reasoning": 250,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 250
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "d2e9db4e2b492037b608735a0ef4c61172d6927499f6547ae128be92bbf17eab",
+      "audit_sha256": "e6b647767d9c2a6bfd3c12d66508357397efcecb0fe77722dbdd664b69a9a8f2",
+      "id": "single_kimi_t2_s4"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 3,
+      "total_pairs": 40,
+      "score_pct": 7.5,
+      "responses": 96,
+      "nonempty_reasoning": 96,
+      "empty_final": 1,
+      "finish_reasons": {
+        "stop": 96
+      },
+      "parse_failures": 1,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "8798da89687443c4f3d6102b88ea222b33414c61328dcec6ae2056ea3a774e1d",
+      "audit_sha256": "cfdc0ea3b68a5e3bd0d2c6c76ab08d32022c6f681ecb87fcc09cd551a23522bb",
+      "id": "duel_deepseek_glm_t0_s0_A"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 5,
+      "total_pairs": 40,
+      "score_pct": 12.5,
+      "responses": 104,
+      "nonempty_reasoning": 80,
+      "empty_final": 5,
+      "finish_reasons": {
+        "stop": 99,
+        "length": 5
+      },
+      "parse_failures": 6,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "8798da89687443c4f3d6102b88ea222b33414c61328dcec6ae2056ea3a774e1d",
+      "audit_sha256": "cfdc0ea3b68a5e3bd0d2c6c76ab08d32022c6f681ecb87fcc09cd551a23522bb",
+      "id": "duel_deepseek_glm_t0_s0_A"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 7,
+      "total_pairs": 40,
+      "score_pct": 17.5,
+      "responses": 101,
+      "nonempty_reasoning": 101,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 101
+      },
+      "parse_failures": 0,
+      "invalid_actions": 1,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "d2991b9d74f599105b372fe23cf76a88672cb294e857d638e2ecb3bb62c8f8e6",
+      "audit_sha256": "d64cd8a60c6f4a284bf3839ac126336451c04e679ae8cc9ac325b34a94633c57",
+      "id": "duel_deepseek_glm_t0_s0_B"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 5,
+      "total_pairs": 40,
+      "score_pct": 12.5,
+      "responses": 99,
+      "nonempty_reasoning": 87,
+      "empty_final": 1,
+      "finish_reasons": {
+        "stop": 98,
+        "length": 1
+      },
+      "parse_failures": 2,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "d2991b9d74f599105b372fe23cf76a88672cb294e857d638e2ecb3bb62c8f8e6",
+      "audit_sha256": "d64cd8a60c6f4a284bf3839ac126336451c04e679ae8cc9ac325b34a94633c57",
+      "id": "duel_deepseek_glm_t0_s0_B"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 7,
+      "total_pairs": 40,
+      "score_pct": 17.5,
+      "responses": 92,
+      "nonempty_reasoning": 92,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 92
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "c17ce715af964e9e98968825847b58abd227276aaf8f1e58c0f9d068bfdaa7ea",
+      "audit_sha256": "1e960b85c555cd68ccb64466e518bbe4c5277d81cd98fa3e68292347cf85f417",
+      "id": "duel_deepseek_glm_t0_s1_A"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 14,
+      "total_pairs": 40,
+      "score_pct": 35.0,
+      "responses": 108,
+      "nonempty_reasoning": 93,
+      "empty_final": 2,
+      "finish_reasons": {
+        "stop": 106,
+        "length": 2
+      },
+      "parse_failures": 2,
+      "invalid_actions": 2,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "c17ce715af964e9e98968825847b58abd227276aaf8f1e58c0f9d068bfdaa7ea",
+      "audit_sha256": "1e960b85c555cd68ccb64466e518bbe4c5277d81cd98fa3e68292347cf85f417",
+      "id": "duel_deepseek_glm_t0_s1_A"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 7,
+      "total_pairs": 40,
+      "score_pct": 17.5,
+      "responses": 100,
+      "nonempty_reasoning": 100,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 100
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "e7c429155bf48f30d66c43e0ae45b7d8d2aa46ae296469e50069b02883635e38",
+      "audit_sha256": "50fb41abfb7bdc2c08ca73c04988555314163107d11227aa017ee827b44e6864",
+      "id": "duel_deepseek_glm_t0_s1_B"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 1,
+      "total_pairs": 40,
+      "score_pct": 2.5,
+      "responses": 100,
+      "nonempty_reasoning": 89,
+      "empty_final": 1,
+      "finish_reasons": {
+        "stop": 99,
+        "length": 1
+      },
+      "parse_failures": 11,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "e7c429155bf48f30d66c43e0ae45b7d8d2aa46ae296469e50069b02883635e38",
+      "audit_sha256": "50fb41abfb7bdc2c08ca73c04988555314163107d11227aa017ee827b44e6864",
+      "id": "duel_deepseek_glm_t0_s1_B"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 9,
+      "total_pairs": 40,
+      "score_pct": 22.5,
+      "responses": 104,
+      "nonempty_reasoning": 104,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 104
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "4d61619bc9c900c4d3bf5d0b55b2380f09678de1eb2592f3a9d5514d77543300",
+      "audit_sha256": "a1eb7734bce67d3eec97f97495860443863d006924338d89655cf5dd99bc96e4",
+      "id": "duel_deepseek_glm_t1_s2_A"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 5,
+      "total_pairs": 40,
+      "score_pct": 12.5,
+      "responses": 96,
+      "nonempty_reasoning": 81,
+      "empty_final": 2,
+      "finish_reasons": {
+        "stop": 94,
+        "length": 2
+      },
+      "parse_failures": 2,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "4d61619bc9c900c4d3bf5d0b55b2380f09678de1eb2592f3a9d5514d77543300",
+      "audit_sha256": "a1eb7734bce67d3eec97f97495860443863d006924338d89655cf5dd99bc96e4",
+      "id": "duel_deepseek_glm_t1_s2_A"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 8,
+      "total_pairs": 40,
+      "score_pct": 20.0,
+      "responses": 95,
+      "nonempty_reasoning": 95,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 95
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "01a84bb4f8b0ec5959a98e80a77f3b7f885a5460a5933fa458744689bfc0cbe6",
+      "audit_sha256": "692e7bca7768158c0ca03459ad04ab8569ac1d791ada0c1b0c81ef03620fd224",
+      "id": "duel_deepseek_glm_t1_s2_B"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 11,
+      "total_pairs": 40,
+      "score_pct": 27.500000000000004,
+      "responses": 105,
+      "nonempty_reasoning": 92,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 105
+      },
+      "parse_failures": 4,
+      "invalid_actions": 1,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "01a84bb4f8b0ec5959a98e80a77f3b7f885a5460a5933fa458744689bfc0cbe6",
+      "audit_sha256": "692e7bca7768158c0ca03459ad04ab8569ac1d791ada0c1b0c81ef03620fd224",
+      "id": "duel_deepseek_glm_t1_s2_B"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 10,
+      "total_pairs": 40,
+      "score_pct": 25.0,
+      "responses": 104,
+      "nonempty_reasoning": 104,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 104
+      },
+      "parse_failures": 0,
+      "invalid_actions": 2,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "ce03ccc0cf1f38ecf91222440f638c4efbaaab6dd959014438e1e40400523f63",
+      "audit_sha256": "0fd28a69bb18662968c16f76402e7a3443d41a7af481531c5325f2321d93e983",
+      "id": "duel_deepseek_glm_t1_s3_A"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 6,
+      "total_pairs": 40,
+      "score_pct": 15.0,
+      "responses": 96,
+      "nonempty_reasoning": 85,
+      "empty_final": 2,
+      "finish_reasons": {
+        "stop": 94,
+        "length": 2
+      },
+      "parse_failures": 2,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "ce03ccc0cf1f38ecf91222440f638c4efbaaab6dd959014438e1e40400523f63",
+      "audit_sha256": "0fd28a69bb18662968c16f76402e7a3443d41a7af481531c5325f2321d93e983",
+      "id": "duel_deepseek_glm_t1_s3_A"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 4,
+      "total_pairs": 40,
+      "score_pct": 10.0,
+      "responses": 94,
+      "nonempty_reasoning": 94,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 94
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "fa29d1fec861265316c353f4bf95b01394f7b046799df98967bc8b23f6d440ff",
+      "audit_sha256": "cc62094b9c3f084b25fed05d20b8059ac344e44b96a3e3569dd5916b89a10d1c",
+      "id": "duel_deepseek_glm_t1_s3_B"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 8,
+      "total_pairs": 40,
+      "score_pct": 20.0,
+      "responses": 106,
+      "nonempty_reasoning": 89,
+      "empty_final": 2,
+      "finish_reasons": {
+        "stop": 104,
+        "length": 2
+      },
+      "parse_failures": 2,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "fa29d1fec861265316c353f4bf95b01394f7b046799df98967bc8b23f6d440ff",
+      "audit_sha256": "cc62094b9c3f084b25fed05d20b8059ac344e44b96a3e3569dd5916b89a10d1c",
+      "id": "duel_deepseek_glm_t1_s3_B"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 4,
+      "total_pairs": 40,
+      "score_pct": 10.0,
+      "responses": 100,
+      "nonempty_reasoning": 99,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 100
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "ed360a6d06a9c6dd4b3f58d6fd0940d36dc69d380a4d5576049a354c354f04a8",
+      "audit_sha256": "2c4cbb0638e0ebe9d72688ea15446a97acf7d009bd65d0322f75c92e4494eace",
+      "id": "duel_deepseek_kimi_t0_s0_A"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 4,
+      "total_pairs": 40,
+      "score_pct": 10.0,
+      "responses": 100,
+      "nonempty_reasoning": 100,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 100
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "ed360a6d06a9c6dd4b3f58d6fd0940d36dc69d380a4d5576049a354c354f04a8",
+      "audit_sha256": "2c4cbb0638e0ebe9d72688ea15446a97acf7d009bd65d0322f75c92e4494eace",
+      "id": "duel_deepseek_kimi_t0_s0_A"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 4,
+      "total_pairs": 40,
+      "score_pct": 10.0,
+      "responses": 88,
+      "nonempty_reasoning": 88,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 88
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "89e1b924f010eb1058c4c8f8b38af6fb32017c4832bac0e6d56ab975ebb0f2ad",
+      "audit_sha256": "6b61794ef28858469c0c24579c1bc48fbba2424296b362808804c66595c10746",
+      "id": "duel_deepseek_kimi_t0_s0_B"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 15,
+      "total_pairs": 40,
+      "score_pct": 37.5,
+      "responses": 112,
+      "nonempty_reasoning": 112,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 112
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "89e1b924f010eb1058c4c8f8b38af6fb32017c4832bac0e6d56ab975ebb0f2ad",
+      "audit_sha256": "6b61794ef28858469c0c24579c1bc48fbba2424296b362808804c66595c10746",
+      "id": "duel_deepseek_kimi_t0_s0_B"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 2,
+      "total_pairs": 40,
+      "score_pct": 5.0,
+      "responses": 93,
+      "nonempty_reasoning": 93,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 93
+      },
+      "parse_failures": 0,
+      "invalid_actions": 3,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "dcb2a293aa53ef4862b41f676465017aad719699a1e7e73f2406c34be11e6fd8",
+      "audit_sha256": "45ef9d8cb29db2d871f1dbd30e1819cadd1ef3a6b971260f9b42fa6f2b5c349d",
+      "id": "duel_deepseek_kimi_t0_s1_A"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 11,
+      "total_pairs": 40,
+      "score_pct": 27.500000000000004,
+      "responses": 107,
+      "nonempty_reasoning": 107,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 107
+      },
+      "parse_failures": 1,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "dcb2a293aa53ef4862b41f676465017aad719699a1e7e73f2406c34be11e6fd8",
+      "audit_sha256": "45ef9d8cb29db2d871f1dbd30e1819cadd1ef3a6b971260f9b42fa6f2b5c349d",
+      "id": "duel_deepseek_kimi_t0_s1_A"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 4,
+      "total_pairs": 40,
+      "score_pct": 10.0,
+      "responses": 92,
+      "nonempty_reasoning": 91,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 92
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "33297336745f7deecc0cf56ca7e76fa4e619ef258ab0619159282001e56e3a11",
+      "audit_sha256": "60c08808398ceb754be6af206105e2aeb4a0d8f419932b4c2af906bbed36ec08",
+      "id": "duel_deepseek_kimi_t0_s1_B"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 12,
+      "total_pairs": 40,
+      "score_pct": 30.0,
+      "responses": 108,
+      "nonempty_reasoning": 108,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 108
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "33297336745f7deecc0cf56ca7e76fa4e619ef258ab0619159282001e56e3a11",
+      "audit_sha256": "60c08808398ceb754be6af206105e2aeb4a0d8f419932b4c2af906bbed36ec08",
+      "id": "duel_deepseek_kimi_t0_s1_B"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 2,
+      "total_pairs": 40,
+      "score_pct": 5.0,
+      "responses": 86,
+      "nonempty_reasoning": 86,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 86
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "74436a8d2bf9144110e15561f094ac9c3203e65912444b90d98f348ac770b38d",
+      "audit_sha256": "5143caf2add093b3829899bc5e977a3da3a42739db0532339ad24347d27c8f93",
+      "id": "duel_deepseek_kimi_t1_s2_A"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 16,
+      "total_pairs": 40,
+      "score_pct": 40.0,
+      "responses": 114,
+      "nonempty_reasoning": 114,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 114
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "74436a8d2bf9144110e15561f094ac9c3203e65912444b90d98f348ac770b38d",
+      "audit_sha256": "5143caf2add093b3829899bc5e977a3da3a42739db0532339ad24347d27c8f93",
+      "id": "duel_deepseek_kimi_t1_s2_A"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 6,
+      "total_pairs": 40,
+      "score_pct": 15.0,
+      "responses": 98,
+      "nonempty_reasoning": 98,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 98
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "309b5e037b19ebc01e7f47089937ea9ed5177507d593075241c5da92d854c269",
+      "audit_sha256": "4ce10e873ac2d6bd6942faa381c5419cdb47e081e6489af25286f60e48509ed1",
+      "id": "duel_deepseek_kimi_t1_s2_B"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 8,
+      "total_pairs": 40,
+      "score_pct": 20.0,
+      "responses": 102,
+      "nonempty_reasoning": 102,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 102
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "309b5e037b19ebc01e7f47089937ea9ed5177507d593075241c5da92d854c269",
+      "audit_sha256": "4ce10e873ac2d6bd6942faa381c5419cdb47e081e6489af25286f60e48509ed1",
+      "id": "duel_deepseek_kimi_t1_s2_B"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 5,
+      "total_pairs": 40,
+      "score_pct": 12.5,
+      "responses": 96,
+      "nonempty_reasoning": 96,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 96
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "11ff6cd11217ee1c7ec0b7337d8e09aa4ac5a9d23c7ad54178e30eddcdcc97a9",
+      "audit_sha256": "e2144c936d5950df68e81123319ad0dbf6abc134bfbab66efd500c84d6c7fc67",
+      "id": "duel_deepseek_kimi_t1_s3_A"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 7,
+      "total_pairs": 40,
+      "score_pct": 17.5,
+      "responses": 104,
+      "nonempty_reasoning": 104,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 104
+      },
+      "parse_failures": 4,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "11ff6cd11217ee1c7ec0b7337d8e09aa4ac5a9d23c7ad54178e30eddcdcc97a9",
+      "audit_sha256": "e2144c936d5950df68e81123319ad0dbf6abc134bfbab66efd500c84d6c7fc67",
+      "id": "duel_deepseek_kimi_t1_s3_A"
+    },
+    {
+      "model": "deepseek",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 2,
+      "total_pairs": 40,
+      "score_pct": 5.0,
+      "responses": 84,
+      "nonempty_reasoning": 84,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 84
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "835842d3977d0f8e4269397989741520dc70ffb70998693bc03ab6f6ef3a1b31",
+      "audit_sha256": "fb3bf0bfbb944fd5a6500aed755d0d344559c626678924ecf6ee2e41b96df63d",
+      "id": "duel_deepseek_kimi_t1_s3_B"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 17,
+      "total_pairs": 40,
+      "score_pct": 42.5,
+      "responses": 116,
+      "nonempty_reasoning": 116,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 116
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "835842d3977d0f8e4269397989741520dc70ffb70998693bc03ab6f6ef3a1b31",
+      "audit_sha256": "fb3bf0bfbb944fd5a6500aed755d0d344559c626678924ecf6ee2e41b96df63d",
+      "id": "duel_deepseek_kimi_t1_s3_B"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 7,
+      "total_pairs": 40,
+      "score_pct": 17.5,
+      "responses": 103,
+      "nonempty_reasoning": 79,
+      "empty_final": 5,
+      "finish_reasons": {
+        "stop": 98,
+        "length": 5
+      },
+      "parse_failures": 5,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "2c472deeb101f5a2e436a531e35e3a74782ab5247e8650ac82c51127eff33df7",
+      "audit_sha256": "c7bfa80c83f88f82fb10da37d7ddea9a7aae7586d419ba1e439da8a3d09eabcd",
+      "id": "duel_glm_kimi_t0_s0_A"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 7,
+      "total_pairs": 40,
+      "score_pct": 17.5,
+      "responses": 97,
+      "nonempty_reasoning": 97,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 97
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "2c472deeb101f5a2e436a531e35e3a74782ab5247e8650ac82c51127eff33df7",
+      "audit_sha256": "c7bfa80c83f88f82fb10da37d7ddea9a7aae7586d419ba1e439da8a3d09eabcd",
+      "id": "duel_glm_kimi_t0_s0_A"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 9,
+      "total_pairs": 40,
+      "score_pct": 22.5,
+      "responses": 102,
+      "nonempty_reasoning": 89,
+      "empty_final": 4,
+      "finish_reasons": {
+        "stop": 98,
+        "length": 4
+      },
+      "parse_failures": 12,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "ff9148697a58c10a9c718f4be297dcd157de28f2245d9e51d39464176e4832cb",
+      "audit_sha256": "d40c32a28f5af8f99329dceeb257ab313ad0f5e79293f615bb5718a022815cc6",
+      "id": "duel_glm_kimi_t0_s0_B"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 0,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 11,
+      "total_pairs": 40,
+      "score_pct": 27.500000000000004,
+      "responses": 98,
+      "nonempty_reasoning": 98,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 98
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "ff9148697a58c10a9c718f4be297dcd157de28f2245d9e51d39464176e4832cb",
+      "audit_sha256": "d40c32a28f5af8f99329dceeb257ab313ad0f5e79293f615bb5718a022815cc6",
+      "id": "duel_glm_kimi_t0_s0_B"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 8,
+      "total_pairs": 40,
+      "score_pct": 20.0,
+      "responses": 107,
+      "nonempty_reasoning": 88,
+      "empty_final": 9,
+      "finish_reasons": {
+        "stop": 98,
+        "length": 9
+      },
+      "parse_failures": 10,
+      "invalid_actions": 1,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "cb8c384bbb81f6cf3181aab43caca0d63059c5674e86ae96a75508302c93b2cb",
+      "audit_sha256": "ce1901bd0d1198019b1bc59256463adbc42eab74bdaaabaea45e342f0a7f36fe",
+      "id": "duel_glm_kimi_t0_s1_A"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "A",
+      "score_pairs": 6,
+      "total_pairs": 40,
+      "score_pct": 15.0,
+      "responses": 93,
+      "nonempty_reasoning": 93,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 93
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "cb8c384bbb81f6cf3181aab43caca0d63059c5674e86ae96a75508302c93b2cb",
+      "audit_sha256": "ce1901bd0d1198019b1bc59256463adbc42eab74bdaaabaea45e342f0a7f36fe",
+      "id": "duel_glm_kimi_t0_s1_A"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 7,
+      "total_pairs": 40,
+      "score_pct": 17.5,
+      "responses": 98,
+      "nonempty_reasoning": 69,
+      "empty_final": 3,
+      "finish_reasons": {
+        "stop": 95,
+        "length": 3
+      },
+      "parse_failures": 3,
+      "invalid_actions": 1,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "ea5a53e2db07aeda6602cd7319624b80bc64598bf55a08bafc165f5809110102",
+      "audit_sha256": "b0a73cec5a4cd77fd61f78fcbe6ac1f23cf44c256d24d35c98c292c978a2088e",
+      "id": "duel_glm_kimi_t0_s1_B"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 1,
+      "try_index": 0,
+      "first_player": "B",
+      "score_pairs": 10,
+      "total_pairs": 40,
+      "score_pct": 25.0,
+      "responses": 102,
+      "nonempty_reasoning": 102,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 102
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "ea5a53e2db07aeda6602cd7319624b80bc64598bf55a08bafc165f5809110102",
+      "audit_sha256": "b0a73cec5a4cd77fd61f78fcbe6ac1f23cf44c256d24d35c98c292c978a2088e",
+      "id": "duel_glm_kimi_t0_s1_B"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 6,
+      "total_pairs": 40,
+      "score_pct": 15.0,
+      "responses": 100,
+      "nonempty_reasoning": 88,
+      "empty_final": 1,
+      "finish_reasons": {
+        "stop": 99,
+        "length": 1
+      },
+      "parse_failures": 1,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "41d19189afecb9dc0ae57d5e702d44f7af54af0d8e2fe5e27f864e1496f4b378",
+      "audit_sha256": "63d17a8bec3f483da756ff390e85a386142dbf0fcbe4296dcb5c9a239710a70c",
+      "id": "duel_glm_kimi_t1_s2_A"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 7,
+      "total_pairs": 40,
+      "score_pct": 17.5,
+      "responses": 100,
+      "nonempty_reasoning": 100,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 100
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "41d19189afecb9dc0ae57d5e702d44f7af54af0d8e2fe5e27f864e1496f4b378",
+      "audit_sha256": "63d17a8bec3f483da756ff390e85a386142dbf0fcbe4296dcb5c9a239710a70c",
+      "id": "duel_glm_kimi_t1_s2_A"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 4,
+      "total_pairs": 40,
+      "score_pct": 10.0,
+      "responses": 98,
+      "nonempty_reasoning": 79,
+      "empty_final": 1,
+      "finish_reasons": {
+        "stop": 97,
+        "length": 1
+      },
+      "parse_failures": 1,
+      "invalid_actions": 1,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "7c2c7114cf1c20b2f7929be59d52033623e50c7b9e7422fea11f2efef1f1c866",
+      "audit_sha256": "2c609fc20a3a761ff1b7926773d7b5b5e854aba9e1a59846a83b60a3471e1e4f",
+      "id": "duel_glm_kimi_t1_s2_B"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 2,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 6,
+      "total_pairs": 40,
+      "score_pct": 15.0,
+      "responses": 102,
+      "nonempty_reasoning": 102,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 102
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "7c2c7114cf1c20b2f7929be59d52033623e50c7b9e7422fea11f2efef1f1c866",
+      "audit_sha256": "2c609fc20a3a761ff1b7926773d7b5b5e854aba9e1a59846a83b60a3471e1e4f",
+      "id": "duel_glm_kimi_t1_s2_B"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 11,
+      "total_pairs": 40,
+      "score_pct": 27.500000000000004,
+      "responses": 102,
+      "nonempty_reasoning": 87,
+      "empty_final": 1,
+      "finish_reasons": {
+        "stop": 101,
+        "length": 1
+      },
+      "parse_failures": 1,
+      "invalid_actions": 1,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "8f552221ea2a425404d678511c58736ce9f2de2f844ccc4191045b8971a03a07",
+      "audit_sha256": "057914bb8155428525c20f02fa208c8412d299e952e65342f91f973818e3317a",
+      "id": "duel_glm_kimi_t1_s3_A"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "A",
+      "score_pairs": 10,
+      "total_pairs": 40,
+      "score_pct": 25.0,
+      "responses": 98,
+      "nonempty_reasoning": 98,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 98
+      },
+      "parse_failures": 1,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "8f552221ea2a425404d678511c58736ce9f2de2f844ccc4191045b8971a03a07",
+      "audit_sha256": "057914bb8155428525c20f02fa208c8412d299e952e65342f91f973818e3317a",
+      "id": "duel_glm_kimi_t1_s3_A"
+    },
+    {
+      "model": "glm",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 8,
+      "total_pairs": 40,
+      "score_pct": 20.0,
+      "responses": 100,
+      "nonempty_reasoning": 93,
+      "empty_final": 10,
+      "finish_reasons": {
+        "stop": 90,
+        "length": 10
+      },
+      "parse_failures": 10,
+      "invalid_actions": 2,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768
+      },
+      "history_policy": "native_final_content_only",
+      "preserve_assistant_history": false,
+      "image_size": 512,
+      "game_sha256": "64230ba26f5364cff90704382ede9aa8a973965e651659c8cc60fc85c801fe25",
+      "audit_sha256": "c1514af44038cf15ae12e4143f833372402fbaf198d83c2581b947cc2fab905d",
+      "id": "duel_glm_kimi_t1_s3_B"
+    },
+    {
+      "model": "kimi",
+      "kind": "duel",
+      "seed": 3,
+      "try_index": 1,
+      "first_player": "B",
+      "score_pairs": 12,
+      "total_pairs": 40,
+      "score_pct": 30.0,
+      "responses": 100,
+      "nonempty_reasoning": 100,
+      "empty_final": 0,
+      "finish_reasons": {
+        "stop": 100
+      },
+      "parse_failures": 0,
+      "invalid_actions": 0,
+      "request_options": {
+        "temperature": 1.0,
+        "top_p": 0.95,
+        "max_tokens": 32768,
+        "reasoning_effort": "max"
+      },
+      "history_policy": "complete_own_assistant_messages_including_reasoning",
+      "preserve_assistant_history": true,
+      "image_size": 448,
+      "game_sha256": "64230ba26f5364cff90704382ede9aa8a973965e651659c8cc60fc85c801fe25",
+      "audit_sha256": "c1514af44038cf15ae12e4143f833372402fbaf198d83c2581b947cc2fab905d",
+      "id": "duel_glm_kimi_t1_s3_B"
+    }
+  ],
+  "duel_outcomes": [
+    {
+      "group_id": "duel_deepseek_glm",
+      "audited_games": 8,
+      "outcomes": {
+        "glm": 4,
+        "deepseek": 4
+      }
+    },
+    {
+      "group_id": "duel_deepseek_kimi",
+      "audited_games": 8,
+      "outcomes": {
+        "tie": 1,
+        "kimi": 7
+      }
+    },
+    {
+      "group_id": "duel_glm_kimi",
+      "audited_games": 8,
+      "outcomes": {
+        "tie": 1,
+        "kimi": 5,
+        "glm": 2
+      }
+    }
+  ],
+  "historical_exact_setting_equivalence_claimed": false
+}

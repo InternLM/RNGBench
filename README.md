@@ -34,6 +34,8 @@
 
 ## 📣 News
 
+- **[2026.10.14]** Added [verified Matching Pairs evaluations](docs/results/2026-10-models/README.md) for Kimi-K3, DeepSeek-V4.1-Flash and GLM-5.3-Flash: 45 single-player games and 24 duels, with per-game data and thinking settings.
+
 - **[2026.7.7]** Added **Seed-2.1-Pro** to the Main Results — tops single-player Matching Pairs (10×10 image, **64.6%**) and ranks #2 on 3D Maze (13×13, GS **32.0%**). Results table and project page updated.
 - **[2026.6.23]** RNG-Bench is on 🤗 Hugging Face: [Paper](https://huggingface.co/papers/2606.19338) · [Dataset (Game Trajectories)](https://huggingface.co/datasets/internlm/RNGBench-Game-Trajectories) · [Collection](https://huggingface.co/collections/ChrisDing1105/rngbench).
 - **[2026.6.18]** RNG-Bench code and paper released! Check out 📃 [arXiv:2606.19338](https://arxiv.org/abs/2606.19338) 🎉
@@ -67,7 +69,7 @@ belief-state tracking rather than rule misunderstanding or action formatting.
   variance and rewarding exploitation of opponent-revealed cards.
 - **Long-context stress test.** The hardest configurations reach ~128K tokens and
   ~350 image inputs per episode, and scale further with size.
-- **Far from saturation.** The best 10×10 image Matching Pairs score is 64.6%
+- **Far from saturation.** The published cohort’s best 10×10 image Matching Pairs score is 64.6%
   (Seed-2.1-Pro); the best 13×13 maze success rate is 50% (Gemini-3.1-Pro).
 
 ---
@@ -110,7 +112,43 @@ No frontier system is close to saturation.
 | <img src="docs/static/images/logos/moonshot.png" alt="" width="16" height="16" style="vertical-align:middle"> Kimi-K2.5      | 37.5 | 5 | 2 | 9 | 18.0 | 1423 |
 | <img src="docs/static/images/logos/bytedance.png" alt="" width="16" height="16" style="vertical-align:middle"> Seed-2.0-Lite  | 15.6 | 2 | 1 | 13 | 12.3 | 1306 |
 
-**Key findings.** Performance drops sharply with scale (Qwen3.5-397B: 90.6% → 0.7% from 4×4 to 12×12). Vision is the bottleneck, not history length — Qwen3.5-397B and Kimi-K2.5 solve Matching Pairs perfectly in text but fall to 38.3% / 43.3% under noise-pattern images. The textual action trace is load-bearing — removing it collapses GPT-5.4 from 62.3% to 15.3% even though every flip is visible in the board image. And there is large headroom: an optimal policy needs only **3.24** responses per matched pair vs. 7.9 for the best model. Full ablations are in the paper.
+### October 2026 model evaluations
+
+Matching Pairs results for Kimi-K3, DeepSeek-V4.1-Flash and GLM-5.3-Flash,
+verified against native game replay and original API responses. Each model has
+15 single-player games: board seeds `0–4` in each of three tries. Scores average
+all five seeds within a try, then average the three try means. The setting is
+10×10, image/noise, with a 250-response budget.
+
+| Model | Thinking setting | PF%↓ | IA%↓ | Resp./Score↓ | Score%↑ |
+|---|---|---:|---:|---:|---:|
+| Kimi-K3 | max; complete own thinking history | 0.00 | 0.08 | 6.50 | 76.93 |
+| DeepSeek-V4.1-Flash | provider default; level not pinned | 0.13 | 0.00 | 9.38 | 53.33 |
+| GLM-5.3-Flash | provider default; level not pinned | 1.44 | 0.51 | 9.52 | 52.53 |
+
+The 24-game duel cohort uses 8×10 image/poker, a shared 200-response budget,
+and seeds `0–3` with both starting players: eight games per matchup.
+
+| Matchup | First model wins | Ties | Second model wins | Games |
+|---|---:|---:|---:|---:|
+| DeepSeek-V4.1-Flash vs. GLM-5.3-Flash | 4 | 0 | 4 | 8 |
+| DeepSeek-V4.1-Flash vs. Kimi-K3 | 0 | 1 | 7 | 8 |
+| GLM-5.3-Flash vs. Kimi-K3 | 2 | 1 | 5 | 8 |
+
+Kimi explicitly uses `reasoning_effort=max` and preserves its own complete
+assistant messages, including thinking. DeepSeek and GLM use provider defaults;
+a numeric or named server-side thinking level was not pinned. GLM returned
+45 single-player and 49 duel `length` responses; these remain in the budget and
+metrics. Transport failures were retried without becoming zero-score games.
+
+These runs extend the benchmark under the documented model configurations.
+The complete historical main-table run manifests and equality of weights across
+fallback deployment aliases have not been established, so these tables do not
+claim an exact-setting rerun of the published leaderboard. The new duels cover
+only these three models; their outcomes are not added to the historical Elo pool.
+See the [per-game data, thinking audit and protocol](docs/results/2026-10-models/README.md).
+
+**Key findings (published cohort).** Performance drops sharply with scale (Qwen3.5-397B: 90.6% → 0.7% from 4×4 to 12×12). Vision is the bottleneck, not history length — Qwen3.5-397B and Kimi-K2.5 solve Matching Pairs perfectly in text but fall to 38.3% / 43.3% under noise-pattern images. The textual action trace is load-bearing — removing it collapses GPT-5.4 from 62.3% to 15.3% even though every flip is visible in the board image. And there is large headroom: an optimal policy needs only **3.24** responses per matched pair vs. 7.9 for the best model. Full ablations are in the paper.
 
 ---
 
