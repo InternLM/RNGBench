@@ -235,6 +235,17 @@
       </table>
     </div>
 
+    <h3 class="subhead" id="october-model-results">October 2026 model evaluations</h3>
+    <p class="section-lead">45 verified single-player games: 10×10 image/noise, 250 responses per game, seeds 0–4 in each of three tries. Average five seeds within a try, then average three tries.</p>
+    <div class="table-container"><table class="results-table"><thead><tr><th>Model</th><th>Score%↑</th><th>Thinking configuration</th></tr></thead><tbody><tr><td>Kimi-K3</td><td>76.93</td><td>max; complete own thinking history</td></tr>
+<tr><td>DeepSeek-V4.1-Flash</td><td>53.33</td><td>provider default; level not pinned</td></tr>
+<tr><td>GLM-5.3-Flash</td><td>52.53</td><td>provider default; level not pinned</td></tr></tbody></table></div>
+    <p class="section-lead">24 verified duels: 8×10 image/poker, shared 200-response budget; seeds 0–3 and both starting players, eight games per matchup.</p>
+    <div class="table-container"><table class="results-table"><thead><tr><th>Matchup</th><th>First model wins</th><th>Ties</th><th>Second model wins</th></tr></thead><tbody><tr><td>DeepSeek-V4.1-Flash vs. GLM-5.3-Flash</td><td>4</td><td>0</td><td>4</td></tr>
+<tr><td>DeepSeek-V4.1-Flash vs. Kimi-K3</td><td>0</td><td>1</td><td>7</td></tr>
+<tr><td>GLM-5.3-Flash vs. Kimi-K3</td><td>2</td><td>1</td><td>5</td></tr></tbody></table></div>
+    <p class="compare-note">Kimi explicitly uses max effort and passes its own full returned thinking history back to the model. DeepSeek/GLM provider levels were not pinned. GLM's 45 single-player and 49 duel length responses remain in the metrics. Historical full-setting equivalence and fallback weight identity are not established; this three-model duel cohort is separate from the historical Elo pool. <a href="https://github.com/InternLM/RNGBench/blob/main/docs/results/2026-10-models/README.md">Protocol, thinking audit and per-game data</a>.</p>
+
     <ul class="findings-list">
       <li>
         <strong>Single-player and duel rankings diverge.</strong>

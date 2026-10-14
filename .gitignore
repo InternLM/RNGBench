@@ -77,3 +77,8 @@ data_engine_internal/
 # Internal — personal/experiment scripts (kept locally; example scripts live in
 # each game's scripts/). Keep ad-hoc logs under progress_log/ instead.
 **/scripts_self/
+
+# Public, audited October 2026 score release
+!docs/results/
+!docs/results/2026-10-models/
+!docs/results/2026-10-models/**
