@@ -75,13 +75,36 @@ the saved log or images; finalized runs are skipped.
 
 ## Example sweeps (`scripts/`)
 
-All take `MODELS`/`GRIDS`/`SEEDS`/`PARALLEL`/`OUT_BASE` env overrides; `PARALLEL`
-(via `xargs -P`) is the concurrency knob — raise it to your API rate limit.
+The launchers accept environment overrides as shown below. `PARALLEL`
+(via `xargs -P`) controls concurrency; choose it according to your API rate limit.
+
+`run_eval.sh` defaults to seeds `0 1 2`, with one episode per model/theme/grid/seed
+and no outer try loop. These are example defaults; the complete seed list and
+outer repetition count for the published single-player main table are not
+specified in the released paper and scripts. The five-seed `0 1 2 3 4` default
+belongs to the Maze launcher. See [Seeds and repeats](../README.md#seeds-and-repeats)
+for the distinction between an environment seed and a full try.
+
+For image duels, paper Table 3 specifies two seeds and both starting orders,
+giving four games per model pair. `run_duel.sh` defaults to four seeds and model
+A starting every game; it does not exchange the starting order. The example
+below chooses seeds `0 1` and swaps the models in a second invocation. These
+seed values are an example, since Table 3 does not name its two seeds.
 
 ```bash
-MODELS="gpt-5.4 gemini-3.1-pro" GRIDS="8x10 10x10" PARALLEL=4 bash scripts/run_eval.sh
-MODEL_A=gpt-5.4 MODEL_B=gemini-3.1-pro SEEDS="0 1 2 3" bash scripts/run_duel.sh
+MODELS="gpt-5.4 gemini-3.1-pro" GRIDS="8x10 10x10" SEEDS="0 1 2" PARALLEL=4 \
+  bash scripts/run_eval.sh
+
+# Two seeds, both starting orders: four games per pair
+MODEL_A=gpt-5.4 MODEL_B=gemini-3.1-pro SEEDS="0 1" OUT_BASE=results_duel_a_first \
+  bash scripts/run_duel.sh
+MODEL_A=gemini-3.1-pro MODEL_B=gpt-5.4 SEEDS="0 1" OUT_BASE=results_duel_b_first \
+  bash scripts/run_duel.sh
 ```
+
+For repeated tries, use a fresh `OUT_BASE` for each full seed set. Both scripts
+pass `--on-exists resume`, so reusing an output directory can resume or overwrite
+existing games. Keep every try's outputs separate.
 
 ## Replays
 

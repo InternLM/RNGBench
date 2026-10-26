@@ -1,0 +1,184 @@
+{
+  "passed": true,
+  "games": 15,
+  "api_requests": 0,
+  "evaluation_mutations": 0,
+  "matched_pairs": 577,
+  "possible_pairs": 750,
+  "try_means_pct": [
+    82.0,
+    80.4,
+    68.4
+  ],
+  "mean_score_pct": 76.93333333333334,
+  "minimum_episode_score_pct": 48.0,
+  "maximum_episode_score_pct": 92.0,
+  "scope": "Additional action/score/input-reference check; prior audit binds native images and raw API payloads.",
+  "games_reviewed": [
+    {
+      "id": "single_kimi_t0_s0",
+      "try_index": 0,
+      "seed": 0,
+      "matched_pairs": 40,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t0_s1",
+      "try_index": 0,
+      "seed": 1,
+      "matched_pairs": 35,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t0_s2",
+      "try_index": 0,
+      "seed": 2,
+      "matched_pairs": 44,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t0_s3",
+      "try_index": 0,
+      "seed": 3,
+      "matched_pairs": 40,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t0_s4",
+      "try_index": 0,
+      "seed": 4,
+      "matched_pairs": 46,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t1_s0",
+      "try_index": 1,
+      "seed": 0,
+      "matched_pairs": 46,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t1_s1",
+      "try_index": 1,
+      "seed": 1,
+      "matched_pairs": 41,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t1_s2",
+      "try_index": 1,
+      "seed": 2,
+      "matched_pairs": 37,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t1_s3",
+      "try_index": 1,
+      "seed": 3,
+      "matched_pairs": 35,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t1_s4",
+      "try_index": 1,
+      "seed": 4,
+      "matched_pairs": 42,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t2_s0",
+      "try_index": 2,
+      "seed": 0,
+      "matched_pairs": 24,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t2_s1",
+      "try_index": 2,
+      "seed": 1,
+      "matched_pairs": 28,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t2_s2",
+      "try_index": 2,
+      "seed": 2,
+      "matched_pairs": 41,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t2_s3",
+      "try_index": 2,
+      "seed": 3,
+      "matched_pairs": 33,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    },
+    {
+      "id": "single_kimi_t2_s4",
+      "try_index": 2,
+      "seed": 4,
+      "matched_pairs": 45,
+      "total_pairs": 50,
+      "responses": 250,
+      "oracle_memory": false,
+      "ground_truth_absent_from_model_inputs": true,
+      "matches_original_game_and_audit": true
+    }
+  ]
+}
